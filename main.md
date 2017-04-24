@@ -27,9 +27,63 @@ XXX
 
 XXX. Add a reference [@Cousteau1963].
 
-# Conclusion
+## Patient characteristics
 
-XXX
+- How many patients, characteristics, etc.
+- Table 1 provides a breakdown of the population.
+- Table 2 shows the most common ICD codes
+
+## Classes of data
+
+- Data includes time stamped physiological measurements, etc. 
+- Table 2 gives overview of the classes of data available.
+- Figure 1 shows an example for a single patient.
+
+# Methods
+
+## Database development
+
+- Data collected as part of the Philips eICU programme.
+- Outline data streams etc
+
+## Sample selection
+
+- Sample was selected to represent the full dataset
+
+## Deidentification
+
+- Deidentification using Python package.
+- HIPAA compliant etc.
+
+## Code availability
+
+- Code used to extract concepts from the data is under development and shared at: https://github.com/mit-eicu/eicu-code
+
+# Data records
+
+- eICU Collaborative Database is a relational database comprising X tables.
+- Structure is...
+
+# Technical validation
+
+- Changes were kept to a minimum
+- Issue tracking used to keep track of issues 
+- Compared distribution of X to MIMIC. Figure shows...
+
+# Usage notes
+
+## Data access
+
+- Data can be accessed by...
+
+## Example usage
+
+- Examples of usage include...
+
+## Conclusion
+
+- Shared a unique resource
+- Move towards end-to-end reproducible research
 
 # Acknowledgments{.unnumbered}
 

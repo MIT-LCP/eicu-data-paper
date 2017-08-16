@@ -20,9 +20,12 @@ keywords: critical care, telemedicine, ICU, reproducibility
 
 Patients admitted to critical care are severely ill and require life-saving treatment. In 20??, critical care accounted for over 1% of the gross domestic product of the United States (US) [@Halpern20??].
 Intensive monitoring of patients is carried about by numerous equipment at their bedside, resulting in large quantities of data being collected continuously.
+
 The Philips eICU telehealth program provides telemonitoring services to intensive care units (ICUs) across the US and internationally. The program allows caregivers from remote locations to monitor treatments for patients, alert caregivers to sudden deterioration, and provide recommendations regarding care plans.
+
 During routine use of the eICU program, large amounts of data are collected and transferred to remote locations. This data is archived by Philips and transformed into a research database by the eICU Research Institute (eRI).
 The laboratory of computational physiology (LCP) partnered with eRI to produce an open access database sourced from the eICU telehealth program.
+
 - Previously shared MIMIC-III [@MIMIC2016]
 The shared database is referred to as the eICU Collaborative Research Database (eICU-CRD).
 

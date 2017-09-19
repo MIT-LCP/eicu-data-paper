@@ -7,7 +7,7 @@ author:
         - Name Name^2^
         - Name Name^2^
 date: April 24, 2017
-company: ^1^ Massachusetts Institute of Technology, Cambridge, USA; ^2^ Philips Healthcare, Baltimore, MD, USA.  
+company: ^1^ Massachusetts Institute of Technology, Cambridge, USA; ^2^ Philips Healthcare, Baltimore, MD, USA.
 keywords: critical care, telemedicine, ICU, reproducibility
 ---
 

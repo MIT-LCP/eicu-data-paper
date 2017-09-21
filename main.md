@@ -30,7 +30,21 @@ Figure 2. Example patient
 
 # Background \& Summary
 
-Intensive care units (ICUs) provide care for severely ill patients who require life-saving treatment. Critical care as a subspecialty of medicine began during a polio epidemic in which large number of patients required artificial ventilation for many weeks [@Kelly2014+Fongster]. Since then, the field of critical care as grown, accounting for over 1% of the gross domestic product of the United States (US) in 2014 [@Halpern20??].
+<!-- ICUs are expensive
+[@Halpern2014]
+- $1,699 per patient per bed day in 2005
+- 32.7% increase in per day per bed patient cost from 2000 to 2005
+- 5.82% increase compounded per year in the US
+- ICUs represented 13.4% of hospital costs
+- 0.66% GDP
+[@NHS2010] - 2010 UK
+- 1,219 pounds (level 2 ICU bed) per patient-bed-day
+- 1,638 pounds (level 3 ICU bed) per patient-bed-day
+- 5.01% of hospital costs
+- 0.58% of the GDP
+ -->
+
+Intensive care units (ICUs) provide care for severely ill patients who require life-saving treatment. Critical care as a subspecialty of medicine began during a polio epidemic in which large number of patients required artificial ventilation for many weeks [@kelly2014intensive]. Since then, the field of critical care as grown, and continues to grow as demographics shift toward older populations [@adhikari2010critical].
 Patients in ICUs are monitored heavily to detect physiologic deviation associated with deteriorating illness and change their treatment regimen as appropriate.
 Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, and a relatively small portion of this data is archived for later analysis [@Celi].
 
@@ -38,20 +52,15 @@ Philips Healthcare, a major vendor of ICU equipment and services, provide the eI
 During routine use of the eICU program, large amounts of data are collected and transferred to remote locations. This data is archived by Philips and transformed into a research database by the eICU Research Institute (eRI).
 The laboratory of computational physiology (LCP) partnered with eRI to produce the eICU Collaborative Research Database (eICU-CRD), a publicly available database sourced from the eICU telehealth program.
 
-<!--
-- Previously shared MIMIC-III [@MIMIC2016]
--->
-
 # Methods
 
-## Database development and structure
+## Database structure and development
 
-<!--
-Data is denormalized.
-Philips ETL generates the schema.
-LCP do not modify this ETL but further de-identify the data.
--->
-eICU-CRD was created according to a relational schema comprising of 17 tables.
+eICU-CRD is a relational database comprising of 17 tables.
+All tables were de-identified to meet the safe harbor provision of HIPAA [@HIPAA]. These provisions include the removal of all personally identifiable patient identifiers, ages over 89, and other personal information. Large portions of all tables were manually reviewed by at least three personnel to verify all data had been de-identified.
+Patient identifiers are generated randomly, and as a result the identifiers in eICU-CRD cannot be linked back to the original, identifiable data.
+
+## Patient identifiers
 
 Each patient stay in a unit, where the primary unit of care is the ICU, is identified by a single integer: the `patientunitstayid`. Each unique hospitalization is also assigned a unique integer, known as the `patienthealthsystemstayid`. Finally, patients are identified by a `uniquepid`. Each `patienthealthsystemstayid` has at least one or more `patientunitstayid`, and each `uniquepid` can have multiple hospital and/or unit stays.
 Figure \ref{fig:patient_organization} visualizes this hierarchy.
@@ -59,17 +68,10 @@ All tables use `patientunitstayid` to identify an individual unit stay, and the 
 
 ![Organization of patient data demonstrating how a single patient can have multiple hospital stays, and each hospital stay can have multiple unit stays. \label{fig:patient_organization}](img/PatientOrganization.png){ width=70% }
 
-Figure ? shows the database schema.
-
-
 ## Sample selection
 
 A representative sample of patients was extracted from the eRI data warehouse. This sample of patients was selected by ...
 <!-- TODO: Jesse's doc -->
-
-## Deidentification
-
-All tables were de-identified to meet the safe harbor provision of HIPAA. These provisions include the removal of all personally identifiable patient identifiers, ages over 89, and other personal information. Data was de-identified using a python package based upon a publicly available de-identification package which has previously been used to de-identify electronic health records [@perlpackage]. Large portions of all tables were manually reviewed by at least three personnel to verify all data had been de-identified.
 
 ## Code availability
 
@@ -80,50 +82,106 @@ LCP code is available (?): eicu-building
 
 # Data records
 
-eICU-CRD comprises 200,859 patient unit encounters for 139,367 unique patients.
+eICU-CRD comprises 200,859 patient unit encounters for 139,367 unique patients admitted between 2014 and 2015.
 Patients were admitted to one of 335 units at 208 hospitals located throughout the US.
 Table 1 provides demographics of the dataset, including hospital level characteristics.
+
+| Data                             | Number (%)          | Miss  |
+|:---------------------------------|:--------------------|:------|
+| n                                | 200859              |       |
+| age_numeric (median [IQR])       | 65.00 [53.00,76.00] | 95    |
+| unit_los (median [IQR])          | 1.57 [0.82,2.97]    | 0     |
+| hospital_los (median [IQR])      | 5.49 [2.90,10.04]   | 0     |
+| diedinhospital (mean (std))      | 0.09 (0.29)         | 29682 |
+| admissionheight (mean (std))     | 169.25 (13.69)      | 4215  |
+| admissionweight (mean (std))     | 83.93 (27.09)       | 16718 |
+| gender_grouped (n (%))           |                     | 0     |
+|                                  | 134 (0.07)          |       |
+| Female                           | 92303 (45.95)       |       |
+| Male                             | 108379 (53.96)      |       |
+| Other or Unknown                 | 43 (0.02)           |       |
+| ethnicity (n (%))                |                     | 0     |
+|                                  | 2290 (1.14)         |       |
+| African American                 | 21308 (10.61)       |       |
+| Asian                            | 3270 (1.63)         |       |
+| Caucasian                        | 155285 (77.31)      |       |
+| Hispanic                         | 7464 (3.72)         |       |
+| Native American                  | 1700 (0.85)         |       |
+| Other/Unknown                    | 9542 (4.75)         |       |
+| hospital_size (n (%))            |                     | 25279 |
+| <100                             | 12593 (7.17)        |       |
+| 100 - 249                        | 41966 (23.90)       |       |
+| 250 - 499                        | 45716 (26.04)       |       |
+| >= 500                           | 75305 (42.89)       |       |
+| hospital_teaching_status (n (%)) |                     | 0     |
+| False                            | 149181 (74.27)      |       |
+| True                             | 51678 (25.73)       |       |
+| hospital_region (n (%))          |                     | 13838 |
+| Midwest                          | 65950 (35.26)       |       |
+| Northeast                        | 14429 (7.72)        |       |
+| South                            | 60294 (32.24)       |       |
+| West                             | 46348 (24.78)       |       |
+| hospitaldischargeyear (n (%))    |                     | 0     |
+| 2014                             | 95513 (47.55)       |       |
+| 2015                             | 105346 (52.45)      |       |
+| unittype (n (%))                 |                     | 0     |
+| CCU-CTICU                        | 15290 (7.61)        |       |
+| CSICU                            | 9625 (4.79)         |       |
+| CTICU                            | 6158 (3.07)         |       |
+| Cardiac ICU                      | 12467 (6.21)        |       |
+| MICU                             | 17465 (8.70)        |       |
+| Med-Surg ICU                     | 113222 (56.37)      |       |
+| Neuro ICU                        | 14451 (7.19)        |       |
+| SICU                             | 12181 (6.06)        |       |
+| unitdischargestatus (n (%))      |                     | 0     |
+|                                  | 34 (0.02)           |       |
+| Alive                            | 189918 (94.55)      |       |
+| Expired                          | 10907 (5.43)        |       |
+| hospitaldischargestatus (n (%))  |                     | 0     |
+|                                  | 1751 (0.87)         |       |
+| Alive                            | 181104 (90.16)      |       |
+| Expired                          | 18004 (8.96)        |       |
 
 <!-- Table 1 -->
 
 Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by the APACHE IV diagnosis system [@Zimmerman2008].
 
-Diagnosis | Number | Percent
---- | --- | ---
-No diagnosis available | 22996 | 11.45
-Sepsis, pulmonary | 8862 | 4.41
-Infarction, acute myocardial (MI) | 7228 | 3.60
-CVA, cerebrovascular accident/stroke | 6647 | 3.31
-CHF, congestive heart failure | 6617 | 3.29
-Sepsis, renal/UTI (including bladder) | 5273 | 2.62
-Rhythm disturbance (atrial, supraventricular) | 4827 | 2.40
-Diabetic ketoacidosis | 4825 | 2.40
-Cardiac arrest (with or without respiratory arrest; for respiratory arrest see Respiratory System) | 4580 | 2.28
-CABG alone, coronary artery bypass grafting | 4543 | 2.26
+| Diagnosis | Number | Percent |
+|-----|-----|-----|
+| No diagnosis available | 22996 | 11.45 |
+| Sepsis, pulmonary | 8862 | 4.41 |
+| Infarction, acute myocardial (MI) | 7228 | 3.60 |
+| CVA, cerebrovascular accident/stroke | 6647 | 3.31 |
+| CHF, congestive heart failure | 6617 | 3.29 |
+| Sepsis, renal/UTI (including bladder) | 5273 | 2.62 |
+| Rhythm disturbance (atrial, supraventricular) | 4827 | 2.40 |
+| Diabetic ketoacidosis | 4825 | 2.40 |
+| Cardiac arrest (with or without respiratory arrest; for respiratory arrest see Respiratory System) | 4580 | 2.28 |
+| CABG alone, coronary artery bypass grafting | 4543 | 2.26 |
 
 ## Classes of data
 
 Data includes vital signs, laboratory measurements, medications, APACHE components, care plan information, admission diagnosis, patient history, time-stamped diagnoses from a structured problem list, and similarly chosen treatments. Data is organized into tables which broadly correspond to the type of data contained within the table. Table 3 gives an overview of tables on the database.
 
-Table name | Type of data
---- | ---
-admissiondx | APACHE Admission diagnoses and other APACHE information
-apacheapsvar | Acute Physiology Score (APS)-III components for APACHE predictions
-apachepredvar | Components for the APACHE predictions
-apachepatientresult | Predictions made from the APACHE IV system (versions IV and IVa)
-careplancareprovider | Information regarding the current care providers for the patient
-careplaneol | End of life care planning
-careplangeneral | Care plan for the patient, including end of life care
-careplangoal | Stated goals of care for the patient
-careplaninfectiousdisease | Precautions for patient related to infectious disease
-diagnosis | Structured list detailing ongoing problems/diagnoses
-hospital | Hospital level survey information: bed size, teaching status, and US region
-lab | Laboratory measurements
-pasthistory | Structured list detailing patient's health status prior to presentation in the unit
-patient | Demographic and administrative information regarding the patient and their unit/hospital stay
-treatment | Structured list detailing active treatments provided to the patient
-vitalaperiodic | Aperiodic vital sign measurements (unevenly sampled)
-vitalperiodic | Periodic vital sign measurements (5 minute interval)
+| Table name | Type of data |
+|-----|-----|
+| admissiondx | APACHE Admission diagnoses and other APACHE information |
+| apacheapsvar | Acute Physiology Score (APS)-III components for APACHE predictions |
+| apachepredvar | Components for the APACHE predictions |
+| apachepatientresult | Predictions made from the APACHE IV system (versions IV and IVa) |
+| careplancareprovider | Information regarding the current care providers for the patient |
+| careplaneol | End of life care planning |
+| careplangeneral | Care plan for the patient, including end of life care |
+| careplangoal | Stated goals of care for the patient |
+| careplaninfectiousdisease | Precautions for patient related to infectious disease |
+| diagnosis | Structured list detailing ongoing problems/diagnoses |
+| hospital | Hospital level survey information: bed size, teaching status, and US region |
+| lab | Laboratory measurements |
+| pasthistory | Structured list detailing patient's health status prior to presentation in the unit |
+| patient | Demographic and administrative information regarding the patient and their unit/hospital stay |
+| treatment | Structured list detailing active treatments provided to the patient |
+| vitalaperiodic | Aperiodic vital sign measurements (unevenly sampled) |
+| vitalperiodic | Periodic vital sign measurements (5 minute interval) |
 
 ### APACHE data
 
@@ -154,6 +212,12 @@ Laboratory values are collected within the hospital and are stored with the unit
 ## Data access
 
 Data can be accessed via a PhysioNetWorks repository [@data-doi]. Usage of the data requires proof of completion for a course on using human subjects in research. Usage of the data also requires signing of a data use agreement stipulating, among other items, that the user will not share the data and will not attempt to re-identify any patients or institutions.
+
+
+<!--
+Documentation is continuously updated and available online http://eicu-crd.mit.edu
+- Previously shared MIMIC-III under these terms [@MIMIC2016]
+-->
 
 
 ## Collaborative code

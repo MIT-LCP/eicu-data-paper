@@ -48,13 +48,9 @@ Intensive care units (ICUs) provide care for severely ill patients who require l
 Patients in ICUs are monitored heavily to detect physiologic deviation associated with deteriorating illness and change their treatment regimen as appropriate.
 Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, and a relatively small portion of this data is archived for later analysis [@Celi].
 
-<<<<<<< HEAD
-Philips Healthcare, a major vendor of ICU equipment and services, provide the eICU program as a service [@eICUProgram]. The Philips eICU program is a telehealth service which provides telemonitoring services to ICUs across the US and internationally. The program allows care providers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
-Care providers primarily access and document data in an information management system called eCareManager and additionally have access to the other information systems present in the hospital.
-=======
 A telehealth ICU, or teleICU, is a centralized model of care where remote providers monitor ICU patients continuously, providing both structured consultations and reactive alerts [@lilly2014critical]. TeleICUs allow caregivers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
 Philips Healthcare, a major vendor of ICU equipment and services, provide a teleICU service known as the eICU program [@eICUProgram].
->>>>>>> 1f6f66a0ae393841742946e45549584c9be8c64e
+Care providers primarily access and document data in an information management system called eCareManager and additionally have access to the other information systems present in the hospital.
 During routine use of the eICU program, large amounts of data are collected and transferred to remote locations. This data is archived by Philips and transformed into a research database by the eICU Research Institute (eRI).
 The laboratory of computational physiology (LCP) partnered with eRI to produce the eICU Collaborative Research Database (eICU-CRD), a publicly available database sourced from the eICU telehealth program.
 

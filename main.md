@@ -48,7 +48,8 @@ Intensive care units (ICUs) provide care for severely ill patients who require l
 Patients in ICUs are monitored heavily to detect physiologic deviation associated with deteriorating illness and change their treatment regimen as appropriate.
 Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, and a relatively small portion of this data is archived for later analysis [@Celi].
 
-Philips Healthcare, a major vendor of ICU equipment and services, provide the eICU program as a service [@eICUProgram]. The Philips eICU program is a telehealth service which provides telemonitoring services to ICUs across the US and internationally. The program allows caregivers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
+A telehealth ICU, or teleICU, is a centralized model of care where remote providers monitor ICU patients continuously, providing both structured consultations and reactive alerts [@lilly2014critical]. TeleICUs allow caregivers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
+Philips Healthcare, a major vendor of ICU equipment and services, provide a teleICU service known as the eICU program [@eICUProgram].
 During routine use of the eICU program, large amounts of data are collected and transferred to remote locations. This data is archived by Philips and transformed into a research database by the eICU Research Institute (eRI).
 The laboratory of computational physiology (LCP) partnered with eRI to produce the eICU Collaborative Research Database (eICU-CRD), a publicly available database sourced from the eICU telehealth program.
 
@@ -163,39 +164,39 @@ Table 2 highlights the top 10 most frequent admission diagnoses in the dataset a
 
 Data includes vital signs, laboratory measurements, medications, APACHE components, care plan information, admission diagnosis, patient history, time-stamped diagnoses from a structured problem list, and similarly chosen treatments. Data is organized into tables which broadly correspond to the type of data contained within the table. Table 3 gives an overview of tables on the database.
 
-| Table name | Type of data |
-|-----|-----|
-| admissiondx | APACHE Admission diagnoses and other APACHE information |
-| apacheapsvar | Acute Physiology Score (APS)-III components for APACHE predictions |
-| apachepredvar | Components for the APACHE predictions |
-| apachepatientresult | Predictions made from the APACHE IV system (versions IV and IVa) |
-| careplancareprovider | Information regarding the current care providers for the patient |
-| careplaneol | End of life care planning |
-| careplangeneral | Care plan for the patient, including end of life care |
-| careplangoal | Stated goals of care for the patient |
-| careplaninfectiousdisease | Precautions for patient related to infectious disease |
-| diagnosis | Structured list detailing ongoing problems/diagnoses |
-| hospital | Hospital level survey information: bed size, teaching status, and US region |
-| lab | Laboratory measurements |
-| pasthistory | Structured list detailing patient's health status prior to presentation in the unit |
-| patient | Demographic and administrative information regarding the patient and their unit/hospital stay |
-| treatment | Structured list detailing active treatments provided to the patient |
-| vitalaperiodic | Aperiodic vital sign measurements (unevenly sampled) |
-| vitalperiodic | Periodic vital sign measurements (5 minute interval) |
+| Group | Table name | Type of data |
+|-------|------------|--------------|
+| Administrative information | hospital | Hospital level survey information: bed size, teaching status, and US region |
+| Administrative information | patient | Demographic and administrative information regarding the patient and their unit/hospital stay |
+| APACHE | admissiondx | APACHE Admission diagnoses and other APACHE information |
+| APACHE | apacheapsvar | Acute Physiology Score (APS)-III components for APACHE predictions |
+| APACHE | apachepredvar | Components for the APACHE predictions |
+| APACHE | apachepatientresult | Predictions made from the APACHE IV system (versions IV and IVa) |
+| Care plan | careplancareprovider | Information regarding the current care providers for the patient |
+| Care plan | careplaneol | End of life care planning |
+| Care plan | careplangeneral | Care plan for the patient, including end of life care |
+| Care plan | careplangoal | Stated goals of care for the patient |
+| Care plan | careplaninfectiousdisease | Precautions for patient related to infectious disease |
+<!-- AdmissionDrug -->
+| Care documentation | diagnosis | Structured list detailing ongoing problems/diagnoses |
+| Care documentation | treatment | Structured list detailing active treatments provided to the patient |
+| Care documentation | pasthistory | Structured list detailing patient's health status prior to presentation in the unit |
+| Care documentation | lab | Laboratory measurements |
+| Care documentation | medication | Prescribed medications |
+| Monitor data | vitalaperiodic | Aperiodic vital sign measurements (unevenly sampled) |
+| Monitor data | vitalperiodic | Periodic vital sign measurements (5 minute interval) |
+
+### Administrative data
 
 ### APACHE data
 
 ### Care plan
 
-### Administrative data
-
-### Structured drop down lists
+### Care documentation
 
 Treatments and diagnoses are selected by the care giver from a drop down list of options. There are ???? unique treatments and ???? unique diagnoses in the database. Both treatment and body system use a hierarchical coding system allowing for specification of terms corresponding to overarching groups such as body system. Care plans are similarly structured but do not have the same hierarchical grouping as treatments and diagnoses.
 
-
-
-### Time-stamped measurements
+### Monitor data
 
 Periodic vital signs are recorded every 5 minutes and include heart rate, respiratory rate, oxygen saturation, temperature, invasive arterial blood pressure, pulmonary artery pressure, ST levels, and intracranial pressure (ICP). Periodic vital signs are not validated by care staff and not available for all patients. The most frequently available periodic vital sign is heart rate (??%), and the least available periodic vital sign is ICP (??%). Aperiodic vital signs are collected at various times and include non-invasive blood pressure, PAOP, cardiac output, cardiac input, SVR, SVRi, PVR, and PVRi. The most frequent aperiodic vital sign is mean blood pressure (??%), and the least frequent is PVRi (??%).
 
@@ -211,8 +212,7 @@ Laboratory values are collected within the hospital and are stored with the unit
 
 ## Data access
 
-Data can be accessed via a PhysioNetWorks repository [@data-doi]. Usage of the data requires proof of completion for a course on using human subjects in research. Usage of the data also requires signing of a data use agreement stipulating, among other items, that the user will not share the data and will not attempt to re-identify any patients or institutions.
-
+Data can be accessed via a PhysioNetWorks repository [@data-doi]. Usage of the data requires proof of completion for a course on using human subjects in research. Usage of the data also requires signing of a data use agreement stipulating, among other items; that the user will not share the data, will not attempt to re-identify any patients or institutions, and will release code associated with any publication using the data.
 
 <!--
 Documentation is continuously updated and available online http://eicu-crd.mit.edu

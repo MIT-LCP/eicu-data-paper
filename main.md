@@ -48,7 +48,8 @@ Intensive care units (ICUs) provide care for severely ill patients who require l
 Patients in ICUs are monitored heavily to detect physiologic deviation associated with deteriorating illness and change their treatment regimen as appropriate.
 Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, and a relatively small portion of this data is archived for later analysis [@Celi].
 
-Philips Healthcare, a major vendor of ICU equipment and services, provide the eICU program as a service [@eICUProgram]. The Philips eICU program is a telehealth service which provides telemonitoring services to ICUs across the US and internationally. The program allows caregivers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
+Philips Healthcare, a major vendor of ICU equipment and services, provide the eICU program as a service [@eICUProgram]. The Philips eICU program is a telehealth service which provides telemonitoring services to ICUs across the US and internationally. The program allows care providers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
+Care providers primarily access and document data in an information management system called eCareManager and additionally have access to the other information systems present in the hospital.
 During routine use of the eICU program, large amounts of data are collected and transferred to remote locations. This data is archived by Philips and transformed into a research database by the eICU Research Institute (eRI).
 The laboratory of computational physiology (LCP) partnered with eRI to produce the eICU Collaborative Research Database (eICU-CRD), a publicly available database sourced from the eICU telehealth program.
 
@@ -70,8 +71,25 @@ All tables use `patientunitstayid` to identify an individual unit stay, and the 
 
 ## Sample selection
 
-A representative sample of patients was extracted from the eRI data warehouse. This sample of patients was selected by ...
-<!-- TODO: Jesse's doc -->
+A non-random sample of patients was selected from the eRI research data repository. The selection was done as follows: first, all hospital discharges between 2014 and 2015 were identified, and a single index stay for each unique patient was extracted.
+The proportion of index stays in each hospital from the eRI data repository was used to perform a stratified sample of patient index stays based upon hospital. If a patient index stay was selected, then all stays for that patient were included in the dataset, regardless of hospital.
+A small proportion of patients only had stays in step down units or low acuity units, and these stays were removed.
+
+1. Select stays which were discharged from the hospital in 2014 or 2015 using the hospital discharge year.
+2. For each patient with an eligible stay, identify the index stay in the 2014-15 period, designate the
+hospital where this occurred as the ‘home hospital’ for this patient.
+3. Calculate the ‘home hospital’ distribution across all patients with an eligible stay. Denote these
+proportions as pi (the proportion of patients with home hospital i).
+4. Designate N as the target number of stays (in our case, N ≈ 200,000), and n as the number of unique
+patients required to select about N stays. Approximate how large n should be based on the average
+number of stays and the loss of ineligible stays (e.g., from SDUs) to achieve around N stays.
+5. It was found that selecting about 29% of the eligible patients corresponded with approximately 200k
+stays in the final dataset, and this corresponded with about n = 188k patients.
+6. For patients with home hospital i, select ni = n × pi patients, and repeat this across all hospitals.
+7. From these select n patients, collect all stays with a discharge in 2014-15, regardless if they occurred at
+the home hospital or a different hospital.
+8. Remove stays occurring in an SDU or acute unit. Remove stays which occurred at hospitals with
+incomplete vital signs or other information.
 
 ## Code availability
 
@@ -141,8 +159,7 @@ Table 1 provides demographics of the dataset, including hospital level character
 |                                  | 1751 (0.87)         |       |
 | Alive                            | 181104 (90.16)      |       |
 | Expired                          | 18004 (8.96)        |       |
-
-<!-- Table 1 -->
+Table 1: Demographics of the cohort.
 
 Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by the APACHE IV diagnosis system [@Zimmerman2008].
 
@@ -158,6 +175,7 @@ Table 2 highlights the top 10 most frequent admission diagnoses in the dataset a
 | Diabetic ketoacidosis | 4825 | 2.40 |
 | Cardiac arrest (with or without respiratory arrest; for respiratory arrest see Respiratory System) | 4580 | 2.28 |
 | CABG alone, coronary artery bypass grafting | 4543 | 2.26 |
+Table 2: Most frequent admission diagnoses as coded using the APACHE-IV diagnosis system.
 
 ## Classes of data
 
@@ -185,7 +203,11 @@ Data includes vital signs, laboratory measurements, medications, APACHE componen
 
 ### APACHE data
 
+The Acute Physiology and Chronic Health Evaluation (APACHE)-IV system [@Zimmerman2008] is a tool used for hospital benchmarking and risk-adjustment. The APACHE-IV system, among other predictions, provides estimates of the probability that a patient dies given data from the first 24 hours. These predictions, on aggregate across many patients, can be used to benchmark hospitals and subsequently identify policies from hospitals which are beneficial for patient outcomes. In order to make these predictions, care providers must collect a set of parameters regarding the patient: physiologic measurements, comorbid burden, treatments given, and admission diagnosis. These parameters are used in a logistic regression to predict mortality. eICU-CRD contains all parameters used in the APACHE-IV equations: physiologic parameters are primarily stored in `apacheapsvar`, and other parameters are stored in `apachepredvar`. The result of the predictions for both the APACHE-IV and the updated APACHE-IVa equation are available in `apachepatientresult`. This data provides an excellent estimate of patient severity of illness on admission to the ICU, though it should be noted that these predictions are not available for every patient, in particular: those who stay less than 4 hours, burns patients, certain transplant patients, and in-hospital readmissions. See the original publication for more detail [@Zimmerman2008].
+
 ### Care plan
+
+The care plan is a section of eCareManager which is primarily used for intraprofessional communication. The data is documented using structured multiple choice lists and is used to communicate care provider type and specialty, code status, prognosis, healthcare proxies, facilitate end-of-life discussion,
 
 ### Administrative data
 

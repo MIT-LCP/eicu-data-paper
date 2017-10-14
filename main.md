@@ -75,7 +75,9 @@ All tables use `patientunitstayid` to identify an individual unit stay, and the 
 A non-random sample of patients was selected from the eRI research data repository. The selection was done as follows: first, all hospital discharges between 2014 and 2015 were identified, and a single index stay for each unique patient was extracted.
 The proportion of index stays in each hospital from the eRI data repository was used to perform a stratified sample of patient index stays based upon hospital. If a patient index stay was selected, then all stays for that patient were included in the dataset, regardless of hospital.
 A small proportion of patients only had stays in step down units or low acuity units, and these stays were removed.
+A detailed description of the sample selection is provided in the supplemental material.
 
+<!--
 1. Select stays which were discharged from the hospital in 2014 or 2015 using the hospital discharge year.
 2. For each patient with an eligible stay, identify the index stay in the 2014-15 period, designate the
 hospital where this occurred as the ‘home hospital’ for this patient.
@@ -91,6 +93,7 @@ stays in the final dataset, and this corresponded with about n = 188k patients.
 the home hospital or a different hospital.
 8. Remove stays occurring in an SDU or acute unit. Remove stays which occurred at hospitals with
 incomplete vital signs or other information.
+-->
 
 ## Code availability
 
@@ -127,19 +130,6 @@ Table 1 provides demographics of the dataset, including hospital level character
 | Hispanic                         | 7464 (3.72)         |       |
 | Native American                  | 1700 (0.85)         |       |
 | Other/Unknown                    | 9542 (4.75)         |       |
-| hospital_size (n (%))            |                     | 25279 |
-| <100                             | 12593 (7.17)        |       |
-| 100 - 249                        | 41966 (23.90)       |       |
-| 250 - 499                        | 45716 (26.04)       |       |
-| >= 500                           | 75305 (42.89)       |       |
-| hospital_teaching_status (n (%)) |                     | 0     |
-| False                            | 149181 (74.27)      |       |
-| True                             | 51678 (25.73)       |       |
-| hospital_region (n (%))          |                     | 13838 |
-| Midwest                          | 65950 (35.26)       |       |
-| Northeast                        | 14429 (7.72)        |       |
-| South                            | 60294 (32.24)       |       |
-| West                             | 46348 (24.78)       |       |
 | hospitaldischargeyear (n (%))    |                     | 0     |
 | 2014                             | 95513 (47.55)       |       |
 | 2015                             | 105346 (52.45)      |       |
@@ -166,7 +156,6 @@ Table 2 highlights the top 10 most frequent admission diagnoses in the dataset a
 
 | Diagnosis | Number | Percent |
 |-----|-----|-----|
-| No diagnosis available | 22996 | 11.45 |
 | Sepsis, pulmonary | 8862 | 4.41 |
 | Infarction, acute myocardial (MI) | 7228 | 3.60 |
 | CVA, cerebrovascular accident/stroke | 6647 | 3.31 |
@@ -176,7 +165,8 @@ Table 2 highlights the top 10 most frequent admission diagnoses in the dataset a
 | Diabetic ketoacidosis | 4825 | 2.40 |
 | Cardiac arrest (with or without respiratory arrest; for respiratory arrest see Respiratory System) | 4580 | 2.28 |
 | CABG alone, coronary artery bypass grafting | 4543 | 2.26 |
-Table 2: Most frequent admission diagnoses as coded using the APACHE-IV diagnosis system.
+| Emphysema/bronchitis | 4494 | 2.237390 |
+Table 2: Most frequent admission diagnoses as coded using the APACHE-IV diagnosis system. No diagnosis was available for 22,996 admissions (11.45%).
 
 ## Classes of data
 
@@ -203,28 +193,104 @@ Data includes vital signs, laboratory measurements, medications, APACHE componen
 | Care documentation | medication | Prescribed medications |
 | Monitor data | vitalaperiodic | Aperiodic vital sign measurements (unevenly sampled) |
 | Monitor data | vitalperiodic | Periodic vital sign measurements (5 minute interval) |
+Table 3: Tables with data in the database.
 
 ### Administrative data
+
+Hospital level information is available in the `hospital` table, and includes the region the hospital is located in (midwest, northeast, west, south), whether the hospital is a teaching hospital, and the number of beds in the hospital. Hospital information is the result of a survey and is incomplete: 10% of hospital have unknown teaching status, 39% have unknown region, and 48% have unknown bed capacity. Table 4 shows the percentage of hospital data in each category.
+
+|:-----------------------------------|:------------|
+| Hospital level factor              | Number (%)  |
+| Bed capacity                       |             |
+|   \<100                            | 84 (35.59)  |
+|   100 - 249                        | 81 (34.32)  |
+|   250 - 499                        | 46 (19.49)  |
+|   >= 500                           | 25 (10.59)  |
+|   Unknown                          | 223 (48.58) |
+| Teaching status                    |             |
+|   False                            | 387 (94.16) |
+|   True                             | 24 (5.84)   |
+|   Unknown                          | 48 (10.46)  |
+| Region                             |             |
+|   Midwest                          | 106 (37.99) |
+|   Northeast                        | 20 (7.17)   |
+|   South                            | 87 (31.18)  |
+|   West                             | 66 (23.66)  |
+|   Unknown                          | 180 (39.22) |
+Table 4: Hospital level information.
+
+Patient information is recorded in the `patient` table.
+The three identifiers described earlier (`patientunitstayid`, `patienthealthsystemstayid`, `uniquepid`) are present in this table. Administrative information is recorded here including: admission/discharge time, unit type, admission source, discharge location, and patient vital status on discharge. Patient demographics are also present in the `patient` table including age (with ages > 89 grouped into '> 89'), ethnicity, height, and weight.
 
 ### APACHE data
 
-The Acute Physiology and Chronic Health Evaluation (APACHE)-IV system [@Zimmerman2008] is a tool used for hospital benchmarking and risk-adjustment. The APACHE-IV system, among other predictions, provides estimates of the probability that a patient dies given data from the first 24 hours. These predictions, on aggregate across many patients, can be used to benchmark hospitals and subsequently identify policies from hospitals which are beneficial for patient outcomes. In order to make these predictions, care providers must collect a set of parameters regarding the patient: physiologic measurements, comorbid burden, treatments given, and admission diagnosis. These parameters are used in a logistic regression to predict mortality. eICU-CRD contains all parameters used in the APACHE-IV equations: physiologic parameters are primarily stored in `apacheapsvar`, and other parameters are stored in `apachepredvar`. The result of the predictions for both the APACHE-IV and the updated APACHE-IVa equation are available in `apachepatientresult`. This data provides an excellent estimate of patient severity of illness on admission to the ICU, though it should be noted that these predictions are not available for every patient, in particular: those who stay less than 4 hours, burns patients, certain transplant patients, and in-hospital readmissions. See the original publication for more detail [@Zimmerman2008].
+The Acute Physiology and Chronic Health Evaluation (APACHE) IV system [@Zimmerman2008] is a tool used for hospital benchmarking and risk-adjustment.
+The APACHE IV system, among other predictions, provides estimates of the probability that a patient dies given data from the first 24 hours. These predictions, on aggregate across many patients, can be used to benchmark hospitals and subsequently identify policies from hospitals which are beneficial for patient outcomes.
+In order to make these predictions, care providers must collect a set of parameters regarding the patient: physiologic measurements, comorbid burden, treatments given, and admission diagnosis. These parameters are used in a logistic regression to predict mortality.
+eICU-CRD contains all parameters used in the APACHE IV equations: physiologic parameters are primarily stored in `apacheapsvar`, and other parameters are stored in `apachepredvar`. The result of the predictions for both the APACHE IV and the updated APACHE IVa equation are available in `apachepatientresult`.
+This data provides an excellent estimate of patient severity of illness on admission to the ICU, though it should be noted that these predictions are not available for every patient, in particular: those who stay less than 4 hours, burns patients, certain transplant patients, and in-hospital readmissions. See the original publication for more detail [@Zimmerman2008].
 
 ### Care plan
 
-The care plan is a section of eCareManager which is primarily used for intraprofessional communication. The data is documented using structured multiple choice lists and is used to communicate care provider type and specialty, code status, prognosis, healthcare proxies, facilitate end-of-life discussion,
-
-### Administrative data
+The care plan is a section of eCareManager which is primarily used for intraprofessional communication. The data is documented using structured multiple choice lists and is used to communicate care provider type, provider specialty, code status, prognosis, treatment status, goals of care, healthcare proxies, and facilitate end-of-life discussion.
 
 ### Care documentation
 
-Treatments and diagnoses are selected by the care giver from a drop down list of options. There are ???? unique treatments and ???? unique diagnoses in the database. Both treatment and body system use a hierarchical coding system allowing for specification of terms corresponding to overarching groups such as body system. Care plans are similarly structured but do not have the same hierarchical grouping as treatments and diagnoses.
+Drop down lists available in eCareManager allow for structured documentation of active problems and active treatments for a patient. The active problems documentation is recorded in the `diagnosis` table, with 86% of patients having a documented active problem during the first 24 hours of their unit stay. There were a total of 3,933 unique active problems; the most common was acute respiratory failure (11.15% of patients), followed by acute renal failure (8.15% of patients) and diabetes (7.28% of patients). Problems are hierarchically categorized, and Table 5 shows the proportion of patients with an active problem for each organ system. Note that a patient can have problems documented for multiple organ systems.
+
+| Diagnosis group | Number of patients (%) |
+|:----------------|:-----------------------|
+| cardiovascular | 104264 (11.15%) |
+| pulmonary | 64222 (8.15%) |
+| neurologic | 51609 (7.28%) |
+| renal | 43009 (6.38%) |
+| endocrine | 35519 (6.15%) |
+| gastrointestinal | 35223 (6.10%) |
+| infectious diseases | 20316 (6.01%) |
+| hematology | 19611 (5.32%) |
+| burns/trauma | 9208 (5.13%) |
+| oncology | 7954 (4.72%) |
+| toxicology | 7185 (4.47%) |
+| surgery | 5723 (3.97%) |
+| general | 1698 (3.91%) |
+| transplant | 770 (3.75%) |
+| obstetrics/gynecology | 46 (3.52%) |
+| genitourinary | 26 (3.18%) |
+| musculoskeletal | 19 (2.98%) |
+Table 5: Organ system for problems documented during patient unit stays.
+
+Active treatments are documented in the `treatment` table.
+There are 2,711 unique treatments documented using a hierarchical coding system. The most frequent treatments explicitly documented in the table across patients were mechanical ventilation (16.96% of patients), chest x-rays (8.79% of patients), oxygen therapy via a nasal cannula with a low fraction of oxygen (6.93% of patients), and normal saline administration (7.57%).
+
+Laboratory values collected during routine care are interfaced with eCareManager and archived in the database. 158 distinct types of laboratory measurements are available in the database. Figure X shows number of distinct laboratory measurements available for each patient. values within the hospital and are stored with the unit of measurement and last time the value was revised.
 
 ### Monitor data
 
-Periodic vital signs are recorded every 5 minutes and include heart rate, respiratory rate, oxygen saturation, temperature, invasive arterial blood pressure, pulmonary artery pressure, ST levels, and intracranial pressure (ICP). Periodic vital signs are not validated by care staff and not available for all patients. The most frequently available periodic vital sign is heart rate (??%), and the least available periodic vital sign is ICP (??%). Aperiodic vital signs are collected at various times and include non-invasive blood pressure, PAOP, cardiac output, cardiac input, SVR, SVRi, PVR, and PVRi. The most frequent aperiodic vital sign is mean blood pressure (??%), and the least frequent is PVRi (??%).
+Large quantities of data are continuously recorded on ICU patients and displayed via bedside monitors. The `vitalperiodic` and `vitalaperiodic` tables contain data derived directly from these bedside monitors. Unlike other data elements in the database, the data collected in these tables is *unvalidated*, in that it has been automatically derived and archived with no manual documentation or verification.
 
-Laboratory values are collected within the hospital and are stored with the unit of measurement and last time the value was revised.
+Periodic vital signs are recorded every 5 minutes in the `vitalperiodic` table and include heart rate, respiratory rate, oxygen saturation, temperature, invasive arterial blood pressure, pulmonary artery pressure, ST levels, and intracranial pressure (ICP). The most frequently available periodic vital sign is heart rate (available for 96% of patients), and the least available periodic vital sign is ICP (available for 0.81% of patients). Table 6 summarizes data completion for periodic vital signs.
+
+| Data type | Column name | Number of patients (%) | Average number of observations for patients with data |
+|:----------------|:-----------------------|:-------------------|
+| Heart rate | heartrate          | 192277 (95.73%) | 759.2
+| Respiration rate | respiration        | 178051 (88.64%) | 721.7
+| Peripheral oxygen saturation | sao2               | 189646 (94.42%) | 700.8
+| Temperature | temperature        |  19419 (9.67%) | 679.9
+| Central venous pressure | cvp                |  28698 (14.29%) | 667.6
+| End tidal carbon dioxide concentration | etco2              |   8346 (4.16%) | 530.0
+| Invasive systolic blood pressure | systemicsystolic   |  46667 (23.23%) | 596.5
+| Invasive diastolic blood pressure | systemicdiastolic  |  46661 (23.23%) | 596.5
+| Invasive mean blood pressure | systemicmean       |  46975 (23.39%) | 597.4
+| Systolic pulmonary artery pressure | pasystolic         |  10789 (5.37%) | 382.0
+| Diastolic pulmonary artery pressure | padiastolic        |  10792 (5.37%) | 381.8
+| Mean pulmonary artery pressure| pamean             |  10893 (5.42%) | 381.0
+| ST level | st1                |  95643 (47.62%) | 591.8
+| ST level | st2                |  98886 (49.23%) | 606.2
+| ST level | st3                |  92752 (46.18%) | 595.1
+| Intracranial pressure | icp                |   1634 (0.81%) | 1610.3
+Table 6: Data available in `vitalperiodic` table.
+
+Aperiodic vital signs are collected at various times and include non-invasive blood pressure, PAOP, cardiac output, cardiac input, SVR, SVRi, PVR, and PVRi. The most frequent aperiodic vital sign is blood pressure (available for 94% of patients), and the least frequent is PVRi (available for 0.93% of patients).
 
 # Technical validation
 

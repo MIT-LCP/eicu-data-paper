@@ -190,8 +190,8 @@ Table 3: Tables with data in the database.
 
 Hospital level information is available in the `hospital` table, and includes the region the hospital is located in (midwest, northeast, west, south), whether the hospital is a teaching hospital, and the number of beds in the hospital. Hospital information is the result of a survey and is incomplete: 10% of hospital have unknown teaching status, 39% have unknown region, and 48% have unknown bed capacity. Table 4 shows the percentage of hospital data in each category.
 
-|:-----------------------------------|:------------|
 | Hospital level factor              | Number (%)  |
+|:-----------------------------------|:------------|
 | Bed capacity                       |             |
 |   \<100                            | 84 (35.59)  |
 |   100 - 249                        | 81 (34.32)  |
@@ -357,6 +357,6 @@ AEWJ and TJP collaborated to publish the data and write the paper. JDR performed
 
 The MIT Laboratory for Computational Physiology received funding from Philips Healthcare to undertake work on the database described in this paper. OB is an employees of Philips Healthcare. The authors have no additional competing interests to declare.
 
-# References{.unnumbered}
-
 # Data citation{.unnumbered}
+
+# References{.unnumbered}

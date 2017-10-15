@@ -333,7 +333,9 @@ Detailed documentation is also available online^[http://eicu-crd.mit.edu] and is
 
 <!-- Can use SQL/PostgreSQL to access. We provide code from above repo to facilitate building it -->
 A publicly accessible Jupyter Notebook is provided to demonstrate usage of the data [@jupyter]. The notebook overviews extraction of data for a single patient and visualization of the patients data throughout their ICU stay.
-Figure 2 provides this visualization for a subset of the patient's stay. This notebook is publicly available at the previously described code repository [@eicu-code].
+Figure \ref{fig:example_patient} provides this visualization for a subset of the patient's stay. This notebook is publicly available at the previously described code repository [@eicu-code].
+
+![Visualization of data available for a single patient in the database. \label{fig:example_patient}](img/ExamplePatient.png){ width=70% }
 
 # Conclusion
 

@@ -114,10 +114,10 @@ Patients were admitted to one of 335 units at 208 hospitals located throughout t
 Table 1 provides demographics of the dataset, including hospital level characteristics.
 
 | Data                             | Median [IQR], Mean (STD), or Number (%) |
-|:---------------------------------|:--------------------|:------|
-| Age (median [IQR])               | 65.00 [53.00,76.00] | 95    |
-| Unit length of stay (median [IQR]) | 1.57 [0.82,2.97]    | 0     |
-| Hospital length of stay (median [IQR]) | 5.49 [2.90,10.04]   | 0     |
+|:---------------------------------|:--------------------|
+| Age (median [IQR])               | 65.00 [53.00,76.00] |
+| Unit length of stay (median [IQR]) | 1.57 [0.82,2.97]    |
+| Hospital length of stay (median [IQR]) | 5.49 [2.90,10.04]   |
 | Admission height (mean (std))*     | 169.25 (13.69)      |
 | Admission weight (mean (std))*     | 83.93 (27.09)       |
 | Gender                           |                     |

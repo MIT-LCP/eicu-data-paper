@@ -25,8 +25,11 @@ Figure 2. Example patient
 
 # Abstract{.unnumbered}
 
-- Introduce the eICU Collaborative Research Database.
-- Valuable dataset for research and education.
+Critical care patients are severely ill and monitored intensely through the course of their illness. As a result of this monitoring, large amounts of data are routinely collected for these patients. Philips Healthcare operate a telehealth service, the eICU program, during which they transmit and archive large amounts data for critically ill patients.
+Here we describe the eICU Collaborative Research Database, a multi-center intensive care unit (ICU) database with high granularity data for over 200,000 admissions to ICUs across the United States.
+The data is de-identified, and includes vital sign measurements, care plan documentation, severity of illness measures, diagnosis information, treatment information, and more.
+The data is publicly available, and requires minimal registration, including completion of a training course in research with human subjects and signing of a data use agreement.
+The freely available nature of the data will support a number of research applications into machine learning algorithms, decision support tools, and clinical knowledge generation.
 
 # Background \& Summary
 

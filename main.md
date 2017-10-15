@@ -1,12 +1,13 @@
 ---
-title: The eICU Collaborative Research Database, a freely available database for critical care research
+title: The eICU Collaborative Research Database, a freely available multi-center database for critical care research
 author:
-        - Name Name^1^
-        - Name Name^1^
-        - Name Name^1^
-        - Name Name^2^
-        - Name Name^2^
-date: April 24, 2017
+        - Tom J. Pollard*^1^
+        - Alistair E. W. Johnson*^1^
+        - Jesse D. Raffa^1^
+        - Leo A. Celi^1^
+        - Roger G. Mark^1^
+        - Omar Badawi^2^
+date: October 14, 2017
 company: ^1^ Massachusetts Institute of Technology, Cambridge, USA; ^2^ Philips Healthcare, Baltimore, MD, USA.
 keywords: critical care, telemedicine, ICU, reproducibility
 ---

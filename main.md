@@ -11,18 +11,6 @@ company: ^1^ Massachusetts Institute of Technology, Cambridge, USA; ^2^ Philips 
 keywords: critical care, telemedicine, ICU, reproducibility
 ---
 
-<!--
-Figure/Table list
-Table 1. Demographics
-Table 2. Top 10 Diagnoses
-Table 3. Data completion by patientunitstayid
-Table 4. Planned/excluded tables
-
-Figure 1. Funnel plot of hospitals
-Figure 2. Example patient
-
--->
-
 # Abstract{.unnumbered}
 
 Critical care patients are severely ill and monitored intensely through the course of their illness. As a result of this monitoring, large amounts of data are routinely collected for these patients. Philips Healthcare operate a telehealth service, the eICU program, during which they transmit and archive large amounts data for critically ill patients.
@@ -61,7 +49,7 @@ The laboratory of computational physiology (LCP) partnered with eRI to produce t
 
 ## Database structure and development
 
-eICU-CRD is a relational database comprising of 17 tables.
+eICU-CRD v1.1 is a relational database comprising of 17 tables.
 All tables were de-identified to meet the safe harbor provision of HIPAA [@HIPAA]. These provisions include the removal of all personally identifiable patient identifiers, ages over 89, and other personal information. Large portions of all tables were manually reviewed by at least three personnel to verify all data had been de-identified.
 Patient identifiers are generated randomly, and as a result the identifiers in eICU-CRD cannot be linked back to the original, identifiable data.
 
@@ -299,31 +287,30 @@ Aperiodic vital signs are collected at various times and include non-invasive bl
 Data were verified for integrity during the data transfer process from Philips to MIT. In order to maintain the clinical applicability of tools generated from the data, very little data post-processing has been performed.
 Each participant hospital in the database has a customized data archiving process, and as a result, the reliability and completion of data elements varies on a hospital level. Table 7 describes this data completion across tables, showing the number of hospitals with low, medium, and high data completion.
 
-Table Name | No data (0%) | Low coverage (0-20%) | Medium coverage (20-60%) | High coverage (60-80%) | Excellent coverage (80-100%)
+| Table Name | No data (0%) | Low coverage (0-20%) | Medium coverage (20-60%) | High coverage (60-80%) | Excellent coverage (80-100%) |
 |:----|:----|:----|:----|:-----|:----|
-admissiondx
-admissionDrug
-apacheapsvar
-apachepredvar
-apachepatientresult
-careplancareprovider
-careplaneol
-careplangeneral
-careplangoal
-careplaninfectiousdisease
-diagnosis
-hospital
-infusionDrug
-lab
-medication
-pasthistory
-patient
-treatment
-vitalaperiodic
-vitalperiodic
+| admissionDx | 1 (0.48%) | 1 (0.48%) | 12 (5.77%) | 32 (15.38%) | 162 (77.88%) |
+| admissionDrug | 86 (41.35%) | 51 (24.52%) | 40 (19.23%) | 6 (2.88%) | 25 (12.02%) |
+| apacheApsVar | 0 (0.00%) | 1 (0.48%) | 14 (6.73%) | 31 (14.90%) | 162 (77.88%) |
+| apachePredVar | 0 (0.00%) | 1 (0.48%) | 14 (6.73%) | 31 (14.90%) | 162 (77.88%) |
+| apachePatientResult | 18 (8.65%) | 2 (0.96%) | 35 (16.83%) | 27 (12.98%) | 126 (60.58%) |
+| carePlanCareProvider | 2 (0.96%) | 2 (0.96%) | 25 (12.02%) | 27 (12.98%) | 152 (73.08%) |
+| carePlanEOL | 112 (53.85%) | 96 (46.15%) | 0 (0.00%) | 0 (0.00%) | 0 (0.00%) |
+| carePlanGeneral | 1 (0.48%) | 0 (0.00%) | 1 (0.48%) | 5 (2.40%) | 201 (96.63%) |
+| carePlanGoal | 131 (62.98%) | 57 (27.40%) | 2 (0.96%) | 9 (4.33%) | 9 (4.33%) |
+| carePlanInfectiousDisease | 112 (53.85%) | 81 (38.94%) | 14 (6.73%) | 1 (0.48%) | 0 (0.00%) |
+| diagnosis | 1 (0.48%) | 1 (0.48%) | 24 (11.54%) | 24 (11.54%) | 158 (75.96%) |
+| infusionDrug | 56 (26.92%) | 34 (16.35%) | 84 (40.38%) | 20 (9.62%) | 14 (6.73%) |
+| lab | 1 (0.48%) | 0 (0.00%) | 1 (0.48%) | 6 (2.88%) | 200 (96.15%) |
+| medication | 34 (16.35%) | 15 (7.21%) | 5 (2.40%) | 4 (1.92%) | 150 (72.12%) |
+| pastHistory | 1 (0.48%) | 1 (0.48%) | 9 (4.33%) | 36 (17.31%) | 161 (77.40%) |
+| treatment | 13 (6.25%) | 7 (3.37%) | 27 (12.98%) | 24 (11.54%) | 137 (65.87%) |
+| vitalAperiodic | 2 (0.96%) | 0 (0.00%) | 8 (3.85%) | 11 (5.29%) | 187 (89.90%) |
+| vitalPeriodic | 2 (0.96%) | 0 (0.00%) | 7 (3.37%) | 5 (2.40%) | 194 (93.27%) |
 Table 7: Data completion grouped by table and tabulated by hospitals. Data completion is assessed by the percent of patient unit stays with data. For example, if between 0-20% of `patientUnitStayId` at a hospital have data, then we term this low coverage.
 
 A public issue tracker is used as a forum for reporting technical issues and describing solutions.
+Database updates, including the correction of technical errors and the inclusion of additional data tables, are planned for future releases.
 
 # Usage notes
 

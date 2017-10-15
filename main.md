@@ -287,28 +287,27 @@ Aperiodic vital signs are collected at various times and include non-invasive bl
 
 Data were verified for integrity during the data transfer process from Philips to MIT. In order to maintain the clinical applicability of tools generated from the data, very little data post-processing has been performed.
 Each participant hospital in the database has a customized data archiving process, and as a result, the reliability and completion of data elements varies on a hospital level. Table 7 describes this data completion across tables, showing the number of hospitals with low, medium, and high data completion.
-
 | Table Name | No data (0%) | Low coverage (0-20%) | Medium coverage (20-60%) | High coverage (60-80%) | Excellent coverage (80-100%) |
 |:----|:----|:----|:----|:-----|:----|
-| admissionDx | 1 (0.48%) | 1 (0.48%) | 12 (5.77%) | 32 (15.38%) | 162 (77.88%) |
-| admissionDrug | 86 (41.35%) | 51 (24.52%) | 40 (19.23%) | 6 (2.88%) | 25 (12.02%) |
-| apacheApsVar | 0 (0.00%) | 1 (0.48%) | 14 (6.73%) | 31 (14.90%) | 162 (77.88%) |
-| apachePredVar | 0 (0.00%) | 1 (0.48%) | 14 (6.73%) | 31 (14.90%) | 162 (77.88%) |
-| apachePatientResult | 18 (8.65%) | 2 (0.96%) | 35 (16.83%) | 27 (12.98%) | 126 (60.58%) |
-| carePlanCareProvider | 2 (0.96%) | 2 (0.96%) | 25 (12.02%) | 27 (12.98%) | 152 (73.08%) |
-| carePlanEOL | 112 (53.85%) | 96 (46.15%) | 0 (0.00%) | 0 (0.00%) | 0 (0.00%) |
-| carePlanGeneral | 1 (0.48%) | 0 (0.00%) | 1 (0.48%) | 5 (2.40%) | 201 (96.63%) |
-| carePlanGoal | 131 (62.98%) | 57 (27.40%) | 2 (0.96%) | 9 (4.33%) | 9 (4.33%) |
-| carePlanInfectiousDisease | 112 (53.85%) | 81 (38.94%) | 14 (6.73%) | 1 (0.48%) | 0 (0.00%) |
-| diagnosis | 1 (0.48%) | 1 (0.48%) | 24 (11.54%) | 24 (11.54%) | 158 (75.96%) |
-| infusionDrug | 56 (26.92%) | 34 (16.35%) | 84 (40.38%) | 20 (9.62%) | 14 (6.73%) |
-| lab | 1 (0.48%) | 0 (0.00%) | 1 (0.48%) | 6 (2.88%) | 200 (96.15%) |
-| medication | 34 (16.35%) | 15 (7.21%) | 5 (2.40%) | 4 (1.92%) | 150 (72.12%) |
-| pastHistory | 1 (0.48%) | 1 (0.48%) | 9 (4.33%) | 36 (17.31%) | 161 (77.40%) |
-| treatment | 13 (6.25%) | 7 (3.37%) | 27 (12.98%) | 24 (11.54%) | 137 (65.87%) |
-| vitalAperiodic | 2 (0.96%) | 0 (0.00%) | 8 (3.85%) | 11 (5.29%) | 187 (89.90%) |
-| vitalPeriodic | 2 (0.96%) | 0 (0.00%) | 7 (3.37%) | 5 (2.40%) | 194 (93.27%) |
-Table 7: Data completion grouped by table and tabulated by hospitals. Data completion is assessed by the percent of patient unit stays with data. For example, if between 0-20% of `patientUnitStayId` at a hospital have data, then we term this low coverage.
+| admissiondx               |  0.48 |  0.48 |  5.77 | 15.38 | 77.88 |
+| admissiondrug             | 41.35 | 24.52 | 19.23 |  2.88 | 12.02 |
+| apacheapsvar              |  0.00 |  0.48 |  6.73 | 14.90 | 77.88 |
+| apachepredvar             |  0.00 |  0.48 |  6.73 | 14.90 | 77.88 |
+| apachepatientresult       |  8.65 |  0.96 | 16.83 | 12.98 | 60.58 |
+| careplancareprovider      |  0.96 |  0.96 | 12.02 | 12.98 | 73.08 |
+| careplaneol               | 53.85 | 46.15 |  0.00 |  0.00 |  0.00 |
+| careplangeneral           |  0.48 |  0.00 |  0.48 |  2.40 | 96.63 |
+| careplangoal              | 62.98 | 27.40 |  0.96 |  4.33 |  4.33 |
+| careplaninfectiousdisease | 53.85 | 38.94 |  6.73 |  0.48 |  0.00 |
+| diagnosis                 |  0.48 |  0.48 | 11.54 | 11.54 | 75.96 |
+| infusiondrug              | 26.92 | 16.35 | 40.38 |  9.62 |  6.73 |
+| lab                       |  0.48 |  0.00 |  0.48 |  2.88 | 96.15 |
+| medication                | 16.35 |  7.21 |  2.40 |  1.92 | 72.12 |
+| pasthistory               |  0.48 |  0.48 |  4.33 | 17.31 | 77.40 |
+| treatment                 |  6.25 |  3.37 | 12.98 | 11.54 | 65.87 |
+| vitalaperiodic            |  0.96 |  0.00 |  3.85 |  5.29 | 89.90 |
+| vitalperiodic             |  0.96 |  0.00 |  3.37 |  2.40 | 93.27 |
+Table 7: Data completion grouped by table and tabulated by hospitals. Data completion is assessed by the percent of patient unit stays with data. For example, if between 0-20% of `patientUnitStayId` at a hospital have data, then we term this low coverage, and 41.35% of hospitals have low coverage for `admissionDrug`.
 
 A public issue tracker is used as a forum for reporting technical issues and describing solutions.
 Database updates, including the correction of technical errors and the inclusion of additional data tables, are planned for future releases.

@@ -75,8 +75,10 @@ All tables use `patientunitstayid` to identify an individual unit stay, and the 
 
 ## Sample selection
 
-A non-random sample of patients was selected from the eRI research data repository. The selection was done as follows: first, all hospital discharges between 2014 and 2015 were identified, and a single index stay for each unique patient was extracted.
-The proportion of index stays in each hospital from the eRI data repository was used to perform a stratified sample of patient index stays based upon hospital. If a patient index stay was selected, then all stays for that patient were included in the dataset, regardless of hospital.
+A stratified random sample of patients was selected from the eRI research data repository.
+The selection was done as follows: first, all hospital discharges between 2014 and 2015 were identified, and a single index stay for each unique patient was extracted.
+The proportion of index stays in each hospital from the eRI data repository was used to perform a stratified sample of patient index stays based upon hospital; the aim was to maintain the distribution of first ICU stays across the hospitals in the dataset.
+After a patient index stay was selected, all subsequent stays for that patient were also included in the dataset, regardless of the admitting hospital.
 A small proportion of patients only had stays in step down units or low acuity units, and these stays were removed.
 A detailed description of the sample selection is provided in the supplemental material.
 
@@ -111,49 +113,45 @@ eICU-CRD comprises 200,859 patient unit encounters for 139,367 unique patients a
 Patients were admitted to one of 335 units at 208 hospitals located throughout the US.
 Table 1 provides demographics of the dataset, including hospital level characteristics.
 
-| Data                             | Number (%)          | Miss  |
+| Data                             | Median [IQR], Mean (STD), or Number (%) |
 |:---------------------------------|:--------------------|:------|
-| n                                | 200859              |       |
-| age_numeric (median [IQR])       | 65.00 [53.00,76.00] | 95    |
-| unit_los (median [IQR])          | 1.57 [0.82,2.97]    | 0     |
-| hospital_los (median [IQR])      | 5.49 [2.90,10.04]   | 0     |
-| diedinhospital (mean (std))      | 0.09 (0.29)         | 29682 |
-| admissionheight (mean (std))     | 169.25 (13.69)      | 4215  |
-| admissionweight (mean (std))     | 83.93 (27.09)       | 16718 |
-| gender_grouped (n (%))           |                     | 0     |
-|                                  | 134 (0.07)          |       |
-| Female                           | 92303 (45.95)       |       |
-| Male                             | 108379 (53.96)      |       |
-| Other or Unknown                 | 43 (0.02)           |       |
-| ethnicity (n (%))                |                     | 0     |
-|                                  | 2290 (1.14)         |       |
-| African American                 | 21308 (10.61)       |       |
-| Asian                            | 3270 (1.63)         |       |
-| Caucasian                        | 155285 (77.31)      |       |
-| Hispanic                         | 7464 (3.72)         |       |
-| Native American                  | 1700 (0.85)         |       |
-| Other/Unknown                    | 9542 (4.75)         |       |
-| hospitaldischargeyear (n (%))    |                     | 0     |
-| 2014                             | 95513 (47.55)       |       |
-| 2015                             | 105346 (52.45)      |       |
-| unittype (n (%))                 |                     | 0     |
-| CCU-CTICU                        | 15290 (7.61)        |       |
-| CSICU                            | 9625 (4.79)         |       |
-| CTICU                            | 6158 (3.07)         |       |
-| Cardiac ICU                      | 12467 (6.21)        |       |
-| MICU                             | 17465 (8.70)        |       |
-| Med-Surg ICU                     | 113222 (56.37)      |       |
-| Neuro ICU                        | 14451 (7.19)        |       |
-| SICU                             | 12181 (6.06)        |       |
-| unitdischargestatus (n (%))      |                     | 0     |
-|                                  | 34 (0.02)           |       |
-| Alive                            | 189918 (94.55)      |       |
-| Expired                          | 10907 (5.43)        |       |
-| hospitaldischargestatus (n (%))  |                     | 0     |
-|                                  | 1751 (0.87)         |       |
-| Alive                            | 181104 (90.16)      |       |
-| Expired                          | 18004 (8.96)        |       |
-Table 1: Demographics of the cohort.
+| Age (median [IQR])               | 65.00 [53.00,76.00] | 95    |
+| Unit length of stay (median [IQR]) | 1.57 [0.82,2.97]    | 0     |
+| Hospital length of stay (median [IQR]) | 5.49 [2.90,10.04]   | 0     |
+| Admission height (mean (std))*     | 169.25 (13.69)      |
+| Admission weight (mean (std))*     | 83.93 (27.09)       |
+| Gender                           |                     |
+|   Male                           | 108379 (53.96)      |
+|   Female                         |  92303 (45.95)       |
+|   Other or Unknown                 | 177 (0.09)          |
+| Ethnicity (n (%))                  |                     |
+|   African American                 | 21308 (10.61)       |
+|   Asian                            | 3270 (1.63)         |
+|   Caucasian                        | 155285 (77.31)      |
+|   Hispanic                         | 7464 (3.72)         |
+|   Native American                  | 1700 (0.85)         |
+|   Other/Unknown                    | 11832 (5.89)        |
+| Hospital discharge year (n (%))    |                     |
+|   2014                             | 95513 (47.55)       |
+|   2015                             | 105346 (52.45)      |
+| Unit type (n (%))                |                     |
+|   CCU-CTICU                        | 15290 (7.61)        |
+|   CSICU                            | 9625 (4.79)         |
+|   CTICU                            | 6158 (3.07)         |
+|   Cardiac ICU                      | 12467 (6.21)        |
+|   MICU                             | 17465 (8.70)        |
+|   Med-Surg ICU                     | 113222 (56.37)      |
+|   Neuro ICU                        | 14451 (7.19)        |
+|   SICU                             | 12181 (6.06)        |
+| Status at unit discharge (n (%))      |                     |
+|   Alive                            | 189918 (94.55)      |
+|   Expired                          | 10907 (5.43)        |
+|   Unknown                          | 34 (0.02)           |
+| Status at hospital discharge (n (%))  |                     |
+|   Alive                          | 181104 (90.16)      |
+|   Expired                        | 18004 (8.96)        |
+|   Unknown                        | 1751 (0.87)         |
+Table 1: Demographics of the 200,859 unit admissions in the database. Note that multiple unit admissions can correspond to the same patient. \* Missing data excluded from calculation.
 
 Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by the APACHE IV diagnosis system [@Zimmerman2008].
 
@@ -188,12 +186,13 @@ Data includes vital signs, laboratory measurements, medications, APACHE componen
 | Care plan | careplangeneral | Care plan for the patient, including end of life care |
 | Care plan | careplangoal | Stated goals of care for the patient |
 | Care plan | careplaninfectiousdisease | Precautions for patient related to infectious disease |
-<!-- AdmissionDrug -->
+| Care documentation | admissionDrug | Medications taken prior to unit admission |
 | Care documentation | diagnosis | Structured list detailing ongoing problems/diagnoses |
-| Care documentation | treatment | Structured list detailing active treatments provided to the patient |
-| Care documentation | pasthistory | Structured list detailing patient's health status prior to presentation in the unit |
+| Care documentation | infusionDrug | Continuous infusions administered during the unit stay |
 | Care documentation | lab | Laboratory measurements |
 | Care documentation | medication | Prescribed medications |
+| Care documentation | pasthistory | Structured list detailing patient's health status prior to presentation in the unit |
+| Care documentation | treatment | Structured list detailing active treatments provided to the patient |
 | Monitor data | vitalaperiodic | Aperiodic vital sign measurements (unevenly sampled) |
 | Monitor data | vitalperiodic | Periodic vital sign measurements (5 minute interval) |
 Table 3: Tables with data in the database.
@@ -297,58 +296,75 @@ Aperiodic vital signs are collected at various times and include non-invasive bl
 
 # Technical validation
 
-- Changes were kept to a minimum
-- Issue tracking used to keep track of issues
-- Compared distribution of X to MIMIC. Figure shows...
+Data were verified for integrity during the data transfer process from Philips to MIT. In order to maintain the clinical applicability of tools generated from the data, very little data post-processing has been performed.
+Each participant hospital in the database has a customized data archiving process, and as a result, the reliability and completion of data elements varies on a hospital level. Table 7 describes this data completion across tables, showing the number of hospitals with low, medium, and high data completion.
+
+Table Name | No data (0%) | Low coverage (0-20%) | Medium coverage (20-60%) | High coverage (60-80%) | Excellent coverage (80-100%)
+|:----|:----|:----|:----|:-----|:----|
+admissiondx
+admissionDrug
+apacheapsvar
+apachepredvar
+apachepatientresult
+careplancareprovider
+careplaneol
+careplangeneral
+careplangoal
+careplaninfectiousdisease
+diagnosis
+hospital
+infusionDrug
+lab
+medication
+pasthistory
+patient
+treatment
+vitalaperiodic
+vitalperiodic
+Table 7: Data completion grouped by table and tabulated by hospitals. Data completion is assessed by the percent of patient unit stays with data. For example, if between 0-20% of `patientUnitStayId` at a hospital have data, then we term this low coverage.
+
+A public issue tracker is used as a forum for reporting technical issues and describing solutions.
 
 # Usage notes
 
 ## Data access
 
 Data can be accessed via a PhysioNetWorks repository [@data-doi]. Usage of the data requires proof of completion for a course on using human subjects in research. Usage of the data also requires signing of a data use agreement stipulating, among other items; that the user will not share the data, will not attempt to re-identify any patients or institutions, and will release code associated with any publication using the data.
+The full data use agreement is provided in the supplemental material.
 
-<!--
-Documentation is continuously updated and available online http://eicu-crd.mit.edu
-- Previously shared MIMIC-III under these terms [@MIMIC2016]
--->
-
-
-## Collaborative code
+## Collaborative code and documentation
 
 As the aim of the eICU-CRD is to foster collaboration in secondary analysis of electronic health records, we have created an openly available repository for sharing code [@eicu-code].
 <!-- https://github.com/mit-eicu/eicu-code -->
-Code used to extract concepts from the data is under continuous development.
+As data collection in the database varies across hospitals, code to extract reliable and consistent definitions for key clinical concepts is of utmost importance.
+Open and collaborative work on this code will improve its robustness and improve the reproducibility of subsequent research which relies upon these concepts.
 
+Detailed documentation is also available online^[http://eicu-crd.mit.edu] and is continuously developed. Community contributions to the documentation can be made via the documentation repository [@eicu-website-repo].
 
 ## Example usage
 
 <!-- Can use SQL/PostgreSQL to access. We provide code from above repo to facilitate building it -->
-
-Figure 2 provides a visualization of data available for a single patient.
-
-<!-- TODO figure 1 -->
-
-- Examples of usage include...
+A publicly accessible Jupyter Notebook is provided to demonstrate usage of the data [@jupyter]. The notebook overviews extraction of data for a single patient and visualization of the patients data throughout their ICU stay.
+Figure 2 provides this visualization for a subset of the patient's stay. This notebook is publicly available at the previously described code repository [@eicu-code].
 
 # Conclusion
 
-- Shared a unique resource
-- Move towards end-to-end reproducible research
+We have described the eICU Collaborative Research Database, a large multi-center dataset with rich information for 200,859 ICU stays across the US. This real world clinical dataset is a unique resource which allows for a number of research applications. Furthermore, the publicly accessible nature of the dataset allows for end-to-end reproducible research, which is a challenging task when working with patient data.
 
 # Acknowledgments{.unnumbered}
 
-The authors would like to thank...
+The authors would like to thank the Philips eICU Research Institute and Philips Healthcare for contribution of the data.
 
 # Funding{.unnumbered}
 
-This work has been supported by grants NIH-R01-EB017205, NIH-R01-EB001659, and NIH-R01-GW104987 from the National Institutes of Health.
+This work has been supported by grants NIH-R01-EB017205, NIH-R01-EB001659, and NIH-R01-GW104987 from the National Institutes of Health and by Philips Healthcare.
 
 # Author contributions{.unnumbered}
 
-XXXX
+AEWJ and TJP collaborated to publish the data and write the paper. JDR performed sample selection and provided the documentation for the process. LAC, RGM, and OB reviewed the paper and supervised the work.
 
 # Competing interests{.unnumbered}
 
-The MIT Laboratory for Computational Physiology received funding from Philips Healthcare to undertake work on the database described in this paper. XXX are employees of Philips Healthcare. The authors have no additional competing interests to declare.
+The MIT Laboratory for Computational Physiology received funding from Philips Healthcare to undertake work on the database described in this paper. OB is an employees of Philips Healthcare. The authors have no additional competing interests to declare.
 
 # References{.unnumbered}

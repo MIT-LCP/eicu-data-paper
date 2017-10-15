@@ -50,7 +50,7 @@ The laboratory of computational physiology (LCP) partnered with eRI to produce t
 
 ## Database structure and development
 
-eICU-CRD v1.1 is a relational database comprising of 17 tables.
+eICU-CRD v1.2 is a relational database comprising of 17 tables.
 All tables were de-identified to meet the safe harbor provision of HIPAA [@HIPAA]. These provisions include the removal of all personally identifiable patient identifiers, ages over 89, and other personal information. Large portions of all tables were manually reviewed by at least three personnel to verify all data had been de-identified.
 Patient identifiers are generated randomly, and as a result the identifiers in eICU-CRD cannot be linked back to the original, identifiable data.
 

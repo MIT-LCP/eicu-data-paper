@@ -1,3 +1,6 @@
+# Outputs of notebooks
+table-*.md
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

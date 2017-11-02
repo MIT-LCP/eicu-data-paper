@@ -146,6 +146,7 @@ Table 1 provides demographics of the dataset, including hospital level character
 |   Alive                          | 181104 (90.16)      |
 |   Expired                        | 18004 (8.96)        |
 |   Unknown                        | 1751 (0.87)         |
+
 Table 1: Demographics of the 200,859 unit admissions in the database. Note that multiple unit admissions can correspond to the same patient. \* Missing data excluded from calculation.
 
 Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by trained eICU clinicians using the APACHE IV diagnosis system [@zimmerman2006acute].
@@ -164,6 +165,7 @@ Table 3 collapses APACHE diagnoses into 21 groups which are more clinically intu
 | Cardiac arrest (with or without respiratory arrest; for respiratory arrest see Respiratory System) |  3377 (2.48) |
 | Emphysema/bronchitis                     |  3304 (2.43) |
 | Pneumonia, bacterial                     |  3045 (2.24) |
+
 Table 2: Most frequent admission diagnoses as coded using the APACHE-IV diagnosis system. Percentages are calculated for the 136,236 patient stays with an APACHE IV hospital mortality prediction.
 
 | APACHE Diagnosis category | Number of patients (%) |
@@ -187,6 +189,7 @@ Table 2: Most frequent admission diagnoses as coded using the APACHE-IV diagnosi
 | Coma                                     |  2082 (1.89) |
 | Acute renal failure                      |  1932 (1.75) |
 | Gastrointestinal obstruction             |  1232 (1.12) |
+
 Table 3: Most frequent categories of APACHE diagnosis using clinically meaningful groups. Patients who are missing APACHE-IV hospital mortality predictions are excluded (N=64,623, includes burns patients, in-hospital readmissions, and other APACHE exclusion criteria).
 
 ## Classes of data
@@ -215,6 +218,7 @@ Data includes vital signs, laboratory measurements, medications, APACHE componen
 | Care documentation | treatment | Structured list detailing active treatments provided to the patient |
 | Monitor data | vitalaperiodic | Aperiodic vital sign measurements (unevenly sampled) |
 | Monitor data | vitalperiodic | Periodic vital sign measurements (5 minute interval) |
+
 Table 3: Tables with data in the database.
 
 ### Administrative data
@@ -238,6 +242,7 @@ Hospital level information is available in the `hospital` table, and includes th
 |   South                            | 56	(26.92)  | 60294	(30.02) |
 |   West                             | 43	(20.67)  | 46348	(23.07) |
 |   Unknown                          | 26	(12.50) | 13838	(6.89) |
+
 Table 4: Hospital level information.
 
 Patient information is recorded in the `patient` table.
@@ -278,6 +283,7 @@ Drop down lists available in eCareManager allow for structured documentation of 
 | obstetrics/gynecology | 46 (3.52%) |
 | genitourinary | 26 (3.18%) |
 | musculoskeletal | 19 (2.98%) |
+
 Table 5: Organ system for problems documented during patient unit stays.
 
 Active treatments are documented in the `treatment` table.
@@ -294,22 +300,23 @@ Periodic vital signs are recorded every 5 minutes in the `vitalperiodic` table a
 
 | Data type | Column name | Number of patients (%) | Total number of observations (average patient-wise) |
 |:----------------|:-----------------------|:-------------------|
-| Heart rate                               | heartrate          | 192277 (95.73%) | 145,979,794 (759.2)
-| Peripheral oxygen saturation             | sao2               | 189646 (94.42%) | 132,908,266 (700.8)
-| Respiration rate                         | respiration        | 178051 (88.64%) | 128,501,032 (721.7)
-| ST level                                 | st2                |  98886 (49.23%) | 59,949,273 (606.2)
-| ST level                                 | st1                |  95643 (47.62%) | 56,604,917 (591.8)
-| ST level                                 | st3                |  92752 (46.18%) | 55,201,239 (595.1)
-| Invasive mean blood pressure             | systemicmean       |  46975 (23.39%) | 28,060,870 (597.4)
-| Invasive systolic blood pressure         | systemicsystolic   |  46667 (23.23%) | 27,834,959 (596.5)
-| Invasive diastolic blood pressure        | systemicdiastolic  |  46661 (23.23%) | 27,833,847 (596.5)
-| Central venous pressure                  | cvp                |  28698 (14.29%) | 19,157,758 (667.6)
-| Temperature                              | temperature        |  19419 (9.67%) | 13,203,289 (679.9)
-| Mean pulmonary artery pressure           | pamean             |  10893 (5.42%) | 4,150,132 (381.0)
-| Diastolic pulmonary artery pressure      | padiastolic        |  10792 (5.37%) | 4,120,636 (381.8)
-| Systolic pulmonary artery pressure       | pasystolic         |  10789 (5.37%) | 4,121,138 (382.0)
-| End tidal carbon dioxide concentration   | etco2              |   8346 (4.16%) | 4,423,333 (530.0)
-| Intracranial pressure                    | icp                |   1634 (0.81%) | 2,631,227 (1610.3)
+| Heart rate                               | heartrate          | 192277 (95.73%) | 145,979,794 (759.2) |
+| Peripheral oxygen saturation             | sao2               | 189646 (94.42%) | 132,908,266 (700.8) |
+| Respiration rate                         | respiration        | 178051 (88.64%) | 128,501,032 (721.7) |
+| ST level                                 | st2                |  98886 (49.23%) | 59,949,273 (606.2) |
+| ST level                                 | st1                |  95643 (47.62%) | 56,604,917 (591.8) |
+| ST level                                 | st3                |  92752 (46.18%) | 55,201,239 (595.1) |
+| Invasive mean blood pressure             | systemicmean       |  46975 (23.39%) | 28,060,870 (597.4) |
+| Invasive systolic blood pressure         | systemicsystolic   |  46667 (23.23%) | 27,834,959 (596.5) |
+| Invasive diastolic blood pressure        | systemicdiastolic  |  46661 (23.23%) | 27,833,847 (596.5) |
+| Central venous pressure                  | cvp                |  28698 (14.29%) | 19,157,758 (667.6) |
+| Temperature                              | temperature        |  19419 (9.67%) | 13,203,289 (679.9) |
+| Mean pulmonary artery pressure           | pamean             |  10893 (5.42%) | 4,150,132 (381.0) |
+| Diastolic pulmonary artery pressure      | padiastolic        |  10792 (5.37%) | 4,120,636 (381.8) |
+| Systolic pulmonary artery pressure       | pasystolic         |  10789 (5.37%) | 4,121,138 (382.0) |
+| End tidal carbon dioxide concentration   | etco2              |   8346 (4.16%) | 4,423,333 (530.0) |
+| Intracranial pressure                    | icp                |   1634 (0.81%) | 2,631,227 (1610.3) |
+
 Table 6: Data available in `vitalperiodic` table, including the number of patients who have at least one measurement, the total number of observations available, and the average number of observations available per patient.
 
 Aperiodic vital signs are collected at various times and include non-invasive blood pressure, pulmonary artery occlusion pressure (PAOP), cardiac output, cardiac input, systemic vascular resistance (SVR), SVR index (SVRi), pulmonary vascular resistance (PVR), and PVR index (PVRi). The most frequent aperiodic vital sign is blood pressure (available for 94% of patients), and the least frequent is PVRi (available for 0.93% of patients).
@@ -339,6 +346,7 @@ Each participant hospital in the database have customized workflows and clinical
 | treatment                 |  6.25 |  3.37 | 12.98 | 11.54 | 65.87 |
 | vitalaperiodic            |  0.96 |  0.00 |  3.85 |  5.29 | 89.90 |
 | vitalperiodic             |  0.96 |  0.00 |  3.37 |  2.40 | 93.27 |
+
 Table 7: Data completion grouped by table and tabulated by hospitals. Data completion is assessed by the percent of patient unit stays with data. For example, if between 0-20% of `patientUnitStayId` at a hospital have data, then we term this low coverage, and 41.35% of hospitals have low coverage for `admissionDrug`.
 
 A public issue tracker is used as a forum for reporting technical issues and describing solutions.

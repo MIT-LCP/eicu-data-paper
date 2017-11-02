@@ -14,10 +14,11 @@ keywords: critical care, telemedicine, ICU, reproducibility
 
 # Abstract{.unnumbered}
 
-Critical care patients are severely ill and monitored intensely through the course of their illness. As a result of this monitoring, large amounts of data are routinely collected for these patients. Philips Healthcare operate a telehealth service, the eICU program, during which they transmit and archive large amounts data for critically ill patients.
-Here we describe the eICU Collaborative Research Database, a multi-center intensive care unit (ICU) database with high granularity data for over 200,000 admissions to ICUs across the United States.
+Critical care patients are severely ill and monitored intensely through the course of their illness. As a result of this monitoring, large amounts of data are routinely collected for these patients.
+Philips Healthcare has developed a telehealth system, known as the eICU Program, which leverages these data to support management of critically ill patients.
+Here we describe the eICU Collaborative Research Database, a multi-center intensive care unit (ICU) database with high granularity data for over 200,000 admissions to ICUs monitored by eICU Programs across the United States.
 The data is de-identified, and includes vital sign measurements, care plan documentation, severity of illness measures, diagnosis information, treatment information, and more.
-The data is publicly available, and requires minimal registration, including completion of a training course in research with human subjects and signing of a data use agreement.
+The data is publicly available, and requires minimal registration, including completion of a training course in research with human subjects and signing of a data use agreement mandating responsible handling of the data and adhering to the principle of collaborative research.
 The freely available nature of the data will support a number of research applications into machine learning algorithms, decision support tools, and clinical knowledge generation.
 
 # Background \& Summary
@@ -38,7 +39,7 @@ The freely available nature of the data will support a number of research applic
 
 Intensive care units (ICUs) provide care for severely ill patients who require life-saving treatment. Critical care as a subspecialty of medicine began during a polio epidemic in which large number of patients required artificial ventilation for many weeks [@kelly2014intensive]. Since then, the field of critical care as grown, and continues to grow as demographics shift toward older populations [@adhikari2010critical].
 Patients in ICUs are monitored heavily to detect physiologic deviation associated with deteriorating illness and change their treatment regimen as appropriate.
-Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, and a relatively small portion of this data is archived for later analysis [@Celi].
+Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, though a relatively small portion of these data are archived for later analysis [@Celi].
 
 A telehealth ICU, or teleICU, is a centralized model of care where remote providers monitor ICU patients continuously, providing both structured consultations and reactive alerts [@lilly2014critical]. TeleICUs allow caregivers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
 Philips Healthcare, a major vendor of ICU equipment and services, provide a teleICU service known as the eICU program [@eICUProgram].
@@ -53,10 +54,14 @@ The laboratory of computational physiology (LCP) partnered with eRI to produce t
 eICU-CRD v1.2 is a relational database comprising of 17 tables.
 All tables were de-identified to meet the safe harbor provision of HIPAA [@HIPAA]. These provisions include the removal of all personally identifiable patient identifiers, ages over 89, and other personal information. Large portions of all tables were manually reviewed by at least three personnel to verify all data had been de-identified.
 Patient identifiers are generated randomly, and as a result the identifiers in eICU-CRD cannot be linked back to the original, identifiable data.
+All hospital and ICU identifiers have also been removed to protect the privacy of contributing institutions and providers.
 
 ## Patient identifiers
 
-Each patient stay in a unit, where the primary unit of care is the ICU, is identified by a single integer: the `patientunitstayid`. Each unique hospitalization is also assigned a unique integer, known as the `patienthealthsystemstayid`. Finally, patients are identified by a `uniquepid`. Each `patienthealthsystemstayid` has at least one or more `patientunitstayid`, and each `uniquepid` can have multiple hospital and/or unit stays.
+Each patient stay in a unit, where the primary unit of care is the ICU, is identified by a single integer: the `patientunitstayid`. Each unique hospitalization is also assigned a unique integer, known as the `patienthealthsystemstayid`.
+Finally, patients are identified by a `uniquepid`.
+Unlike the other identifiers, `uniquepid` is generated using an algorithm created by Philips Healthcare adapted from prior work [@finney2011efficient].
+Each `patienthealthsystemstayid` has at least one or more `patientunitstayid`, and each `uniquepid` can have multiple hospital and/or unit stays.
 Figure \ref{fig:patient_organization} visualizes this hierarchy.
 All tables use `patientunitstayid` to identify an individual unit stay, and the patient table can be used to determine unit stays linked to the same patient and/or hospitalization.
 
@@ -104,12 +109,12 @@ Table 1 provides demographics of the dataset, including hospital level character
 
 | Data                             | Median [IQR], Mean (STD), or Number (%) |
 |:---------------------------------|:--------------------|
-| Age (median [IQR])               | 65.00 [53.00,76.00] |
-| Unit length of stay (median [IQR]) | 1.57 [0.82,2.97]    |
-| Hospital length of stay (median [IQR]) | 5.49 [2.90,10.04]   |
-| Admission height (mean (std))*     | 169.25 (13.69)      |
-| Admission weight (mean (std))*     | 83.93 (27.09)       |
-| Gender                           |                     |
+| Age, years (median [IQR])        | 65.00 [53.00,76.00] |
+| Unit length of stay, days (median [IQR]) | 1.57 [0.82,2.97]    |
+| Hospital length of stay, days (median [IQR]) | 5.49 [2.90,10.04]   |
+| Admission height, cm (mean (std))*     | 169.25 (13.69)      |
+| Admission weight, kg (mean (std))*     | 83.93 (27.09)       |
+| Gender (n (%))                     |                     |
 |   Male                           | 108379 (53.96)      |
 |   Female                         |  92303 (45.95)       |
 |   Other or Unknown                 | 177 (0.09)          |
@@ -142,21 +147,46 @@ Table 1 provides demographics of the dataset, including hospital level character
 |   Unknown                        | 1751 (0.87)         |
 Table 1: Demographics of the 200,859 unit admissions in the database. Note that multiple unit admissions can correspond to the same patient. \* Missing data excluded from calculation.
 
-Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by the APACHE IV diagnosis system [@Zimmerman2008].
+Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by trained eICU clinicians using the APACHE IV diagnosis system [@Zimmerman2008].
+Table 3 collapses APACHE diagnoses into 21 groups which are more clinically intuitive. Patients who are missing APACHE IV hospital mortality predictions are excluded from both tables (N=64,623). Patients will not have an APACHE IV hospital mortality prediction if they satisfy exclusion criteria for APACHE IV (burns patients, in-hospital readmissions, some transplant patients), or if their diagnosis is not documented within the first day of their ICU stay.
 
-| Diagnosis | Number | Percent |
+| APACHE Diagnosis | Number of patients(%) |
 |-----|-----|-----|
-| Sepsis, pulmonary | 8862 | 4.41 |
-| Infarction, acute myocardial (MI) | 7228 | 3.60 |
-| CVA, cerebrovascular accident/stroke | 6647 | 3.31 |
-| CHF, congestive heart failure | 6617 | 3.29 |
-| Sepsis, renal/UTI (including bladder) | 5273 | 2.62 |
-| Rhythm disturbance (atrial, supraventricular) | 4827 | 2.40 |
-| Diabetic ketoacidosis | 4825 | 2.40 |
-| Cardiac arrest (with or without respiratory arrest; for respiratory arrest see Respiratory System) | 4580 | 2.28 |
-| CABG alone, coronary artery bypass grafting | 4543 | 2.26 |
-| Emphysema/bronchitis | 4494 | 2.237390 |
-Table 2: Most frequent admission diagnoses as coded using the APACHE-IV diagnosis system. No diagnosis was available for 22,996 admissions (11.45%).
+| Sepsis, pulmonary                        |  6823 (5.01) |
+| Infarction, acute myocardial (MI)        |  5919 (4.34) |
+| CVA, cerebrovascular accident/stroke     |  5284 (3.88) |
+| CHF, congestive heart failure            |  4840 (3.55) |
+| Sepsis, renal/UTI (including bladder)    |  4284 (3.14) |
+| Diabetic ketoacidosis                    |  4001 (2.94) |
+| CABG alone, coronary artery bypass grafting |  3635 (2.67) |
+| Rhythm disturbance (atrial, supraventricular) |  3474 (2.55) |
+| Cardiac arrest (with or without respiratory arrest; for respiratory arrest see Respiratory System) |  3377 (2.48) |
+| Emphysema/bronchitis                     |  3304 (2.43) |
+| Pneumonia, bacterial                     |  3045 (2.24) |
+Table 2: Most frequent admission diagnoses as coded using the APACHE-IV diagnosis system. Percentages are calculated for the 136,236 patient stays with an APACHE IV hospital mortality prediction.
+
+| APACHE Diagnosis category | Number of patients (%) |
+|-----|-----|
+| Sepsis                                   | 18087 (16.40) |
+| Cerebrovascular accident                 |  9758 (8.85) |
+| Cardiac Arrest                           |  9135 (8.28) |
+| Acute Coronary Syndrome                  |  8343 (7.57) |
+| Respiratory medicine                     |  7970 (7.23) |
+| Gastrointestinal Bleed                   |  7277 (6.60) |
+| Congestive Heart Failure                 |  5884 (5.34) |
+| Trauma                                   |  5592 (5.07) |
+| Coronary Artery Bypass Graft             |  4771 (4.33) |
+| Neurological                             |  4640 (4.21) |
+| Pneumonia                                |  4577 (4.15) |
+| Diabetic Ketoacidosis                    |  4384 (3.98) |
+| Overdose                                 |  4268 (3.87) |
+| Asthma/Emphysema                         |  3948 (3.58) |
+| Other cardiovascular disease             |  3593 (3.26) |
+| Valvular disorders                       |  2795 (2.53) |
+| Coma                                     |  2082 (1.89) |
+| Acute renal failure                      |  1932 (1.75) |
+| Gastrointestinal obstruction             |  1232 (1.12) |
+Table 3: Most frequent categories of APACHE diagnosis using clinically meaningful groups. Patients who are missing APACHE-IV hospital mortality predictions are excluded (N=64,623, includes burns patients, in-hospital readmissions, and other APACHE exclusion criteria).
 
 ## Classes of data
 
@@ -190,24 +220,23 @@ Table 3: Tables with data in the database.
 
 Hospital level information is available in the `hospital` table, and includes the region the hospital is located in (midwest, northeast, west, south), whether the hospital is a teaching hospital, and the number of beds in the hospital. Hospital information is the result of a survey and is incomplete: 10% of hospital have unknown teaching status, 39% have unknown region, and 48% have unknown bed capacity. Table 4 shows the percentage of hospital data in each category.
 
-| Hospital level factor              | Number (%)  |
-|:-----------------------------------|:------------|
-| Bed capacity                       |             |
-|   \<100                            | 84 (35.59)  |
-|   100 - 249                        | 81 (34.32)  |
-|   250 - 499                        | 46 (19.49)  |
-|   >= 500                           | 25 (10.59)  |
-|   Unknown                          | 223 (48.58) |
-| Teaching status                    |             |
-|   False                            | 387 (94.16) |
-|   True                             | 24 (5.84)   |
-|   Unknown                          | 48 (10.46)  |
-| Region                             |             |
-|   Midwest                          | 106 (37.99) |
-|   Northeast                        | 20 (7.17)   |
-|   South                            | 87 (31.18)  |
-|   West                             | 66 (23.66)  |
-|   Unknown                          | 180 (39.22) |
+| Hospital level factor              | Number of hospitals (%)  | Number of patients (%) |
+|:-----------------------------------|:------------|:------------|
+| Bed capacity                       |             |             |
+|   \<100                            | 46	(22.12)  | 12593	(6.27)  |
+|   100 - 249                        | 62	(29.81)  | 41966	(20.89) |
+|   250 - 499                        | 35	(16.83)  | 45716	(22.76) |
+|   >= 500                           | 23	(11.06)  | 75305	(37.49) |
+|   Unknown                          | 42	(20.19)  | 25279	(12.59) |
+| Teaching status                    |             |             |
+|   False                            | 189 (90.87) | 149181	(74.27) |
+|   True                             | 19 (9.13)   | 51678	(25.73) |
+| Region                             |             |             |
+|   Midwest                          | 70	(33.65) | 65950	(32.83) |
+|   Northeast                        | 13	(6.25)   | 14429	(7.18) |
+|   South                            | 56	(26.92)  | 60294	(30.02) |
+|   West                             | 43	(20.67)  | 46348	(23.07) |
+|   Unknown                          | 26	(12.50) | 13838	(6.89) |
 Table 4: Hospital level information.
 
 Patient information is recorded in the `patient` table.
@@ -215,7 +244,7 @@ The three identifiers described earlier (`patientunitstayid`, `patienthealthsyst
 
 ### APACHE data
 
-The Acute Physiology and Chronic Health Evaluation (APACHE) IV system [@Zimmerman2008] is a tool used for hospital benchmarking and risk-adjustment.
+The Acute Physiology and Chronic Health Evaluation (APACHE) IV system [@Zimmerman2008] is a tool used to risk-adjust ICU patients for ICU performance benchmarking and quality improvement analysis.
 The APACHE IV system, among other predictions, provides estimates of the probability that a patient dies given data from the first 24 hours. These predictions, on aggregate across many patients, can be used to benchmark hospitals and subsequently identify policies from hospitals which are beneficial for patient outcomes.
 In order to make these predictions, care providers must collect a set of parameters regarding the patient: physiologic measurements, comorbid burden, treatments given, and admission diagnosis. These parameters are used in a logistic regression to predict mortality.
 eICU-CRD contains all parameters used in the APACHE IV equations: physiologic parameters are primarily stored in `apacheapsvar`, and other parameters are stored in `apachepredvar`. The result of the predictions for both the APACHE IV and the updated APACHE IVa equation are available in `apachepatientresult`.
@@ -257,36 +286,38 @@ Laboratory values collected during routine care are interfaced with eCareManager
 
 ### Monitor data
 
-Large quantities of data are continuously recorded on ICU patients and displayed via bedside monitors. The `vitalperiodic` and `vitalaperiodic` tables contain data derived directly from these bedside monitors. Unlike other data elements in the database, the data collected in these tables is *unvalidated*, in that it has been automatically derived and archived with no manual documentation or verification.
+Large quantities of data are continuously recorded on ICU patients and displayed via bedside monitors. The `vitalperiodic` and `vitalaperiodic` tables contain data derived directly from these bedside monitors.
+Unlike other data elements in the database, the data collected in these tables are *unvalidated*, in that it has been automatically derived and archived with no manual documentation or verification.
 
 Periodic vital signs are recorded every 5 minutes in the `vitalperiodic` table and include heart rate, respiratory rate, oxygen saturation, temperature, invasive arterial blood pressure, pulmonary artery pressure, ST levels, and intracranial pressure (ICP). The most frequently available periodic vital sign is heart rate (available for 96% of patients), and the least available periodic vital sign is ICP (available for 0.81% of patients). Table 6 summarizes data completion for periodic vital signs.
 
-| Data type | Column name | Number of patients (%) | Average number of observations for patients with data |
+| Data type | Column name | Number of patients (%) | Total number of observations (average patient-wise) |
 |:----------------|:-----------------------|:-------------------|
-| Heart rate | heartrate          | 192277 (95.73%) | 759.2
-| Respiration rate | respiration        | 178051 (88.64%) | 721.7
-| Peripheral oxygen saturation | sao2               | 189646 (94.42%) | 700.8
-| Temperature | temperature        |  19419 (9.67%) | 679.9
-| Central venous pressure | cvp                |  28698 (14.29%) | 667.6
-| End tidal carbon dioxide concentration | etco2              |   8346 (4.16%) | 530.0
-| Invasive systolic blood pressure | systemicsystolic   |  46667 (23.23%) | 596.5
-| Invasive diastolic blood pressure | systemicdiastolic  |  46661 (23.23%) | 596.5
-| Invasive mean blood pressure | systemicmean       |  46975 (23.39%) | 597.4
-| Systolic pulmonary artery pressure | pasystolic         |  10789 (5.37%) | 382.0
-| Diastolic pulmonary artery pressure | padiastolic        |  10792 (5.37%) | 381.8
-| Mean pulmonary artery pressure| pamean             |  10893 (5.42%) | 381.0
-| ST level | st1                |  95643 (47.62%) | 591.8
-| ST level | st2                |  98886 (49.23%) | 606.2
-| ST level | st3                |  92752 (46.18%) | 595.1
-| Intracranial pressure | icp                |   1634 (0.81%) | 1610.3
-Table 6: Data available in `vitalperiodic` table.
+| Heart rate                               | heartrate          | 192277 (95.73%) | 145,979,794 (759.2)
+| Peripheral oxygen saturation             | sao2               | 189646 (94.42%) | 132,908,266 (700.8)
+| Respiration rate                         | respiration        | 178051 (88.64%) | 128,501,032 (721.7)
+| ST level                                 | st2                |  98886 (49.23%) | 59,949,273 (606.2)
+| ST level                                 | st1                |  95643 (47.62%) | 56,604,917 (591.8)
+| ST level                                 | st3                |  92752 (46.18%) | 55,201,239 (595.1)
+| Invasive mean blood pressure             | systemicmean       |  46975 (23.39%) | 28,060,870 (597.4)
+| Invasive systolic blood pressure         | systemicsystolic   |  46667 (23.23%) | 27,834,959 (596.5)
+| Invasive diastolic blood pressure        | systemicdiastolic  |  46661 (23.23%) | 27,833,847 (596.5)
+| Central venous pressure                  | cvp                |  28698 (14.29%) | 19,157,758 (667.6)
+| Temperature                              | temperature        |  19419 (9.67%) | 13,203,289 (679.9)
+| Mean pulmonary artery pressure           | pamean             |  10893 (5.42%) | 4,150,132 (381.0)
+| Diastolic pulmonary artery pressure      | padiastolic        |  10792 (5.37%) | 4,120,636 (381.8)
+| Systolic pulmonary artery pressure       | pasystolic         |  10789 (5.37%) | 4,121,138 (382.0)
+| End tidal carbon dioxide concentration   | etco2              |   8346 (4.16%) | 4,423,333 (530.0)
+| Intracranial pressure                    | icp                |   1634 (0.81%) | 2,631,227 (1610.3)
+Table 6: Data available in `vitalperiodic` table, including the number of patients who have at least one measurement, the total number of observations available, and the average number of observations available per patient.
 
-Aperiodic vital signs are collected at various times and include non-invasive blood pressure, PAOP, cardiac output, cardiac input, SVR, SVRi, PVR, and PVRi. The most frequent aperiodic vital sign is blood pressure (available for 94% of patients), and the least frequent is PVRi (available for 0.93% of patients).
+Aperiodic vital signs are collected at various times and include non-invasive blood pressure, pulmonary artery occlusion pressure (PAOP), cardiac output, cardiac input, systemic vascular resistance (SVR), SVR index (SVRi), pulmonary vascular resistance (PVR), and PVR index (PVRi). The most frequent aperiodic vital sign is blood pressure (available for 94% of patients), and the least frequent is PVRi (available for 0.93% of patients).
 
 # Technical validation
 
 Data were verified for integrity during the data transfer process from Philips to MIT. In order to maintain the clinical applicability of tools generated from the data, very little data post-processing has been performed.
-Each participant hospital in the database has a customized data archiving process, and as a result, the reliability and completion of data elements varies on a hospital level. Table 7 describes this data completion across tables, showing the number of hospitals with low, medium, and high data completion.
+Each participant hospital in the database have customized workflows and clinical documentation processes, and as a result, the reliability and completion of data elements varies on a hospital and/or ICU level. Table 7 describes this data completion across tables, showing the number of hospitals with low, medium, and high data completion.
+
 | Table Name | No data (0%) | Low coverage (0-20%) | Medium coverage (20-60%) | High coverage (60-80%) | Excellent coverage (80-100%) |
 |:----|:----|:----|:----|:-----|:----|
 | admissiondx               |  0.48 |  0.48 |  5.77 | 15.38 | 77.88 |
@@ -316,7 +347,8 @@ Database updates, including the correction of technical errors and the inclusion
 
 ## Data access
 
-Data can be accessed via a PhysioNetWorks repository [@data-doi]. Usage of the data requires proof of completion for a course on using human subjects in research. Usage of the data also requires signing of a data use agreement stipulating, among other items; that the user will not share the data, will not attempt to re-identify any patients or institutions, and will release code associated with any publication using the data.
+Data can be accessed via a PhysioNetWorks repository [@data-doi]. Usage of the data requires proof of completion for a course on using human subjects in research (e.g. Human Subjects Research from the Collaborative Institutional Training Initiative [@citicourse]).
+Usage of the data also requires signing of a data use agreement stipulating, among other items; that the user will not share the data, will not attempt to re-identify any patients or institutions, and will release code associated with any publication using the data.
 The full data use agreement is provided in the supplemental material.
 
 ## Collaborative code and documentation

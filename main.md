@@ -39,9 +39,10 @@ The freely available nature of the data will support a number of research applic
 
 Intensive care units (ICUs) provide care for severely ill patients who require life-saving treatment. Critical care as a subspecialty of medicine began during a polio epidemic in which large number of patients required artificial ventilation for many weeks [@kelly2014intensive]. Since then, the field of critical care as grown, and continues to grow as demographics shift toward older populations [@adhikari2010critical].
 Patients in ICUs are monitored heavily to detect physiologic deviation associated with deteriorating illness and change their treatment regimen as appropriate.
-Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, though a relatively small portion of these data are archived for later analysis [@Celi].
+Monitoring of ICU patients is facilitated by bedside monitors which continuously stream huge quantities of data, though a relatively small portion of these data are archived for later analysis [@Celi2013loop].
+Challenges to the archival of this data include integration of many disparate hospital systems, building a comprehensive system to handle all types of data, and storing the data in a form amenable to research [@johnson2016machine].
 
-A telehealth ICU, or teleICU, is a centralized model of care where remote providers monitor ICU patients continuously, providing both structured consultations and reactive alerts [@lilly2014critical]. TeleICUs allow caregivers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
+A telehealth ICU, or teleICU, is a centralized model of care where remote providers monitor ICU patients continuously, providing both structured consultations and reactive alerts [@lilly2014multicenter]. TeleICUs allow caregivers from remote locations to monitor treatments for patients, alert local providers to sudden deterioration, and supplement care plans.
 Philips Healthcare, a major vendor of ICU equipment and services, provide a teleICU service known as the eICU program [@eICUProgram].
 Care providers primarily access and document data in an information management system called eCareManager and additionally have access to the other information systems present in the hospital.
 During routine use of the eICU program, large amounts of data are collected and transferred to remote locations. This data is archived by Philips and transformed into a research database by the eICU Research Institute (eRI).
@@ -147,7 +148,7 @@ Table 1 provides demographics of the dataset, including hospital level character
 |   Unknown                        | 1751 (0.87)         |
 Table 1: Demographics of the 200,859 unit admissions in the database. Note that multiple unit admissions can correspond to the same patient. \* Missing data excluded from calculation.
 
-Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by trained eICU clinicians using the APACHE IV diagnosis system [@Zimmerman2008].
+Table 2 highlights the top 10 most frequent admission diagnoses in the dataset as coded by trained eICU clinicians using the APACHE IV diagnosis system [@zimmerman2006acute].
 Table 3 collapses APACHE diagnoses into 21 groups which are more clinically intuitive. Patients who are missing APACHE IV hospital mortality predictions are excluded from both tables (N=64,623). Patients will not have an APACHE IV hospital mortality prediction if they satisfy exclusion criteria for APACHE IV (burns patients, in-hospital readmissions, some transplant patients), or if their diagnosis is not documented within the first day of their ICU stay.
 
 | APACHE Diagnosis | Number of patients(%) |
@@ -244,11 +245,11 @@ The three identifiers described earlier (`patientunitstayid`, `patienthealthsyst
 
 ### APACHE data
 
-The Acute Physiology and Chronic Health Evaluation (APACHE) IV system [@Zimmerman2008] is a tool used to risk-adjust ICU patients for ICU performance benchmarking and quality improvement analysis.
+The Acute Physiology and Chronic Health Evaluation (APACHE) IV system [@zimmerman2006acute] is a tool used to risk-adjust ICU patients for ICU performance benchmarking and quality improvement analysis.
 The APACHE IV system, among other predictions, provides estimates of the probability that a patient dies given data from the first 24 hours. These predictions, on aggregate across many patients, can be used to benchmark hospitals and subsequently identify policies from hospitals which are beneficial for patient outcomes.
 In order to make these predictions, care providers must collect a set of parameters regarding the patient: physiologic measurements, comorbid burden, treatments given, and admission diagnosis. These parameters are used in a logistic regression to predict mortality.
 eICU-CRD contains all parameters used in the APACHE IV equations: physiologic parameters are primarily stored in `apacheapsvar`, and other parameters are stored in `apachepredvar`. The result of the predictions for both the APACHE IV and the updated APACHE IVa equation are available in `apachepatientresult`.
-This data provides an excellent estimate of patient severity of illness on admission to the ICU, though it should be noted that these predictions are not available for every patient, in particular: those who stay less than 4 hours, burns patients, certain transplant patients, and in-hospital readmissions. See the original publication for more detail [@Zimmerman2008].
+This data provides an excellent estimate of patient severity of illness on admission to the ICU, though it should be noted that these predictions are not available for every patient, in particular: those who stay less than 4 hours, burns patients, certain transplant patients, and in-hospital readmissions. See the original publication for more detail [@zimmerman2006acute].
 
 ### Care plan
 
@@ -363,7 +364,7 @@ Detailed documentation is also available online^[http://eicu-crd.mit.edu] and is
 ## Example usage
 
 <!-- Can use SQL/PostgreSQL to access. We provide code from above repo to facilitate building it -->
-A publicly accessible Jupyter Notebook is provided to demonstrate usage of the data [@jupyter]. The notebook overviews extraction of data for a single patient and visualization of the patients data throughout their ICU stay.
+A publicly accessible Jupyter Notebook is provided to demonstrate usage of the data [@pergra2007ipython, @kluyver2016jupyter]. The notebook overviews extraction of data for a single patient and visualization of the patients data throughout their ICU stay.
 Figure \ref{fig:example_patient} provides this visualization for a subset of the patient's stay. This notebook is publicly available at the previously described code repository [@eicu-code].
 
 ![Visualization of data available for a single patient in the database. \label{fig:example_patient}](img/ExamplePatient.png){ width=70% }

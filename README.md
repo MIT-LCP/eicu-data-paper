@@ -1,11 +1,7 @@
-# eICU Collaborative Research Database
+# eICU Collaborative Research Database Data Descriptor [![DOI](https://zenodo.org/badge/86747869.svg)](https://zenodo.org/badge/latestdoi/86747869)
 
-Data descriptor of the eICU Collaborative Research Database for submission to Scientific Data
+Data descriptor of the eICU Collaborative Research Database for submission to Scientific Data.
 
-## Generate the PDF
+A notebook which generates all tables is available: [eicu-data-paper.ipynb](eicu-data-paper.ipynb).
 
-pandoc "main.md" -o "main.pdf" --bibliography="references.bib" --csl="ref_format.csl" -V fontsize=12pt -V papersize=a4paper -V documentclass:article -N --latex-engine=xelatex 
-
-## Generate as docx
-
-pandoc "main.md" -o "main.docx" --bibliography="references.bib" --csl="ref_format.csl" -V fontsize=12pt -V papersize=a4paper -V documentclass:article -N
+The [main.tex](main.tex) file contains the source LaTeX submitted.

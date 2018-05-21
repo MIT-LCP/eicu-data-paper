@@ -105,7 +105,7 @@ This data is archived by Philips and transformed into a research database by the
 
 % Motivate sharing large dataset
 % Right now your paper feels a bit limited; it is very direct and clearly saying: "this dataset exists and here is what it is," but I feel like you can say more. Maybe this is non-standard among dataset papers, but I think some additional motivation wouldn't hurt, which you could do by pointing out how impactful MIMIC has been, but then describing how the eICU dataset fills some of the limitations of MIMIC.
-The Laboratory for Computational Physiology (LCP) partnered with the eRI to produce the eICU Collaborative Research Database (eICU-CRD), a publicly available database sourced from the eICU Telehealth Program.
+The Laboratory for Computational Physiology (LCP) partnered with the eRI to produce the eICU Collaborative Research Database (eICU-CRD), a publicly available database sourced from the eICU Telehealth Program (Data Citation 1).
 The LCP has previously shared the Medical Information Mart for Intensive Care (MIMIC) database \cite{MIMIC2011, MIMIC2016}. The latest version, MIMIC-III, contains rich deidentified data for over 60,000 ICU admissions to the Beth Israel Deaconess Medical Center in Boston, MA. MIMIC-III has been used for education purposes, to investigate novel clinical relationships, and develop new algorithms for patient monitoring. The source hospital of MIMIC-III does not participate in the eICU programme, so eICU-CRD is a completely independent set of data collected from a large number of hospitals located within the United States. The release of eICU-CRD is intended to build upon the success of MIMIC-III and expand the scope of studies possible by making data available from multiple centers.
 
 \section*{Methods}
@@ -146,7 +146,7 @@ Each \colname{patientHealthSystemStayId} has at least one or more \colname{patie
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.70000\textwidth]{img/Patient_Organization.png}
+\includegraphics[width=0.70000\textwidth]{img/Patient_Organization}
 \caption{\emph{Organization of patient tracking information.} Each patient is identified by a unique integer: the \colname{uniquePid}. For each \colname{uniquePid}, a patient may have distinct hospitalizations denoted by \colname{patientHealthSystemStayId}. Finally, for each hospitalizations, a patient may have distinct unit stays, denoted by \colname{patientUnitStayId}. \colname{patientUnitStayId} is the primary identifier used for linking data across tables. \label{fig:patient_organization}}
 \end{figure}
 
@@ -177,9 +177,9 @@ were removed.
 %variables or parameters used to generate, test, or process the current dataset.
 % ------------------------------------ %
 
-The code that underpins the eICU-CRD website and documentation is openly available and contributions from the research community are encouraged: \\ https://github.com/MIT-LCP/eicu-code
+A Jupyter Notebook containing the code used to generate the tables and descriptive statistics included in this paper is available online \cite{eicu-data-paper}.
 
-A Jupyter Notebook containing the code used to generate the tables and descriptive statistics included in this paper is available at: \\ https://github.com/MIT-LCP/eicu-data-paper/
+The code that underpins the eICU-CRD website and documentation is openly available and contributions from the research community are encouraged\footnote{https://github.com/MIT-LCP/eicu-code/}.
 
 \section*{Data Records}\label{data-records}
 
@@ -408,7 +408,7 @@ technical errors will be made with updated data releases.
 \subsection*{Data access}\label{data-access}
 
 Data can be accessed via a PhysioNet repository \cite{physionet-ref}.
-Details of the data access process are available online\footnotemark[1].
+Details of the data access process are available online\footnote{https://eicu-crd.mit.edu/}.
 Use of the data requires proof of completion of a course on human subjects research (e.g.~from the Collaborative Institutional Training Initiative \cite{citicourse}).
 Data access also requires a data use agreement that stipulates, among other items, that the user will not share the data, will not attempt to re-identify any patients or institutions, and will release code associated with any publication using the data. Once approved, data can be directly downloaded from the eICU Collaborative Research Database project on PhysioNet.
 
@@ -420,8 +420,7 @@ Finally, eICU-CRD v2.0 contains data for patients admitted between 2014-2015. Fu
 \subsection*{Collaborative code and documentation}\label{collaborative-code-and-documentation}
 
 A core aim in publicly releasing the eICU-CRD is to foster collaboration in secondary analysis of electronic health records, so we have created an openly available repository for sharing code \cite{eicu-code}. We believe that publicly accessible code to extract reliable and consistent definitions for key clinical concepts is of utmost importance, both to accelerate research in the field and to ensure reproducibility of future studies \cite{johnson2017reproducibility}.
-Detailed documentation is available online\footnotemark[1] and includes information regarding data access, table contents, and a schematic of the relationships between tables in the data.
-\footnotetext[1]{https://eicu-crd.mit.edu/}
+Detailed documentation is available online\footnote{https://eicu-crd.mit.edu/} and includes information regarding data access, table contents, and a schematic of the relationships between tables in the data.
 The documentation is source controlled within the code repository allowing for collaborative development\cite{eicu-code}. Discussion around data usage, highlighting of issues, and best practices can be made via the issues panel of the GitHub repository\footnote{https://github.com/MIT-LCP/eicu-code/issues}.
 
 \subsection*{Example usage}\label{example-usage}
@@ -430,7 +429,7 @@ We have provided publicly accessible Jupyter Notebooks \cite{kluyver2016jupyter,
 These notebooks supplement online documentation and include a detailed review of each table, with commentary on best practices when working with the data. More general notebooks are available in the code repository referenced earlier, and include notebooks for cohort extraction, summary of demographic characteristics, and visualization of time-series data. Figure \ref{fig:example_patient} visualizes of a subset of variables available during a single patient stay and can be generated using a notebook provided online \cite{eicu-data-paper}.
 
 \begin{figure}[htbp]
-\includegraphics[width=1.0\textwidth]{img/ExamplePatient.png}
+\includegraphics[width=1.0\textwidth]{img/ExamplePatient}
 \caption{\emph{Visualization of a single patient's stay.} Data shown are a subset of all data available, and include: high granularity vital signs (dashed lines, sourced from \tblname{vitalPeriodic} and \tblname{vitalAperiodic}), nurse validated vital signs (solid markers, sourced from \tblname{nurseCharting}), blood product administration (green cross, sourced from \tblname{intakeOutput}), and laboratory measurements (sourced from \tblname{lab}). \label{fig:example_patient}}
 \end{figure}
 
@@ -834,40 +833,53 @@ Celi L.A., Mark R.G., Stone D.J., and Montgomery R.A.
 %(\bibinfo{year}{Accessed: April 2018}).
 
 \bibitem{eicu-code}
-Pollard T. J., Johnson A. E. W., Badawi O., Naumann T. J., Komorowski M., Rincon T., and Raffa J. D.
-\newblock MIT-LCP/eicu-code: eICU-CRD Code Repository v1.0.
-\newblock \emph{Zenodo}, https://doi.org/10.5281/zenodo.1249016 (\bibinfo{year}{Accessed: May 2018}).
+Pollard T. J., Johnson A. E. W., Badawi O., Naumann T. J., Rincon T., and Raffa J. D.
+\newblock MIT-LCP/eicu-code: eICU-CRD Code Repository.
+\newblock \emph{Zenodo}, https://doi.org/10.5281/zenodo.1249016 (\bibinfo{year}{2018}).
 
 \bibitem{NHS2005}
-{Department of Health}.
-\newblock {NHS reference costs 2004-2005} (2006).
-\newblock Available from: https://www.gov.uk/government/collections/nhs-reference-costs (\bibinfo{year}{Accessed: 15 May 2018}).
+{Department of Health and Social Care}.
+\newblock {NHS reference costs 2004-2005}.
+\newblock \emph{Department of Health London}. https://www.gov.uk/government/collections/nhs-reference-costs  (\bibinfo{year}{2006}).
 
 \bibitem{NHS2010}
-{Department of Health}.
-\newblock {NHS Reference Costs 2009-2010} (2011).
-\newblock Available from: https://www.gov.uk/government/collections/nhs-reference-costs (\bibinfo{year}{Accessed: 15 May 2018}).
+{Department of Health and Social Care}.
+\newblock {NHS Reference Costs 2009-2010}.
+\newblock \emph{Department of Health London}. https://www.gov.uk/government/collections/nhs-reference-costs (\bibinfo{year}{2011}).
 
 \bibitem{finney2011efficient}
 Finney J.M., Walker A.S., Peto T.M., and Wyllie D.H.
 \newblock An efficient record linkage scheme using graphical analysis for
   identifier error detection.
-\newblock {\em BMC Medical Informatics and Decision Making}, 11(1):7 (2011).
+\newblock {\em BMC Medical Informatics and Decision Making}, 11(1):7 (\bibinfo{year}{2011}).
 
 \bibitem{halpern2010critical}
 Halpern N.A. and Pastores S.M.
 \newblock Critical care medicine in the united states 2000--2005: an analysis
   of bed numbers, occupancy rates, payer mix, and costs.
-\newblock {\em Critical Care Medicine}, 38(1):65--71 (2010).
+\newblock {\em Critical Care Medicine}, 38(1):65--71 (\bibinfo{year}{2010}).
 
 \bibitem{citicourse}
-\newblock \bibinfo{title}{{Collaborative Institutional~Training Initiative Human subjects research, 2017.}}
-\newblock \emph{\bibinfo{journal}{https://about.citiprogram.org/en/homepage/}}
+Braunschweiger, P. and Goodman, K. W.
+\newblock The CITI program: an international online resource for education in human subjects protection and the responsible conduct of research
+\newblock {\em Academic Medicine}, 82(9):861--864 (\bibinfo{year}{2007}).
+%\newblock \bibinfo{title}{{Collaborative Institutional~Training Initiative Human subjects research, 2017.}}
+%\newblock \emph{\bibinfo{journal}{https://about.citiprogram.org/en/homepage/}}
 
 \bibitem{johnson2016machine}
 Johnson A.E.W., Ghassemi M., Nemati S., Niehaus K.E., Clifton D.A., and Clifford G.D.
 \newblock Machine learning and decision support in critical care.
 \newblock {\em Proceedings of the IEEE}, 104(2):444--466 (2016).
+
+\bibitem{mcshea2010eicu}
+McShea M., Holl R., Badawi O., Riker R.R., and Silfen E.
+\newblock The {eICU} research institute-a collaboration between industry, health-care providers, and academia.
+\newblock {\em IEEE Engineering in Medicine and Biology Magazine}, 29(2):18--25 (2010).
+
+\bibitem{HIPAA}
+United States. Cong. House.
+\newblock Health Insurance Portability and Accountability Act of 1996.
+\newblock \emph{104th Congress}, https://www.gpo.gov/fdsys/pkg/PLAW-104publ191/html/PLAW-104publ191.htm (\bibinfo{year}{(1996)}).
 
 \bibitem{MIMIC2016}
 Johnson A.E.W., Pollard T.J., Shen L., Lehman L.H., Feng M., Ghassemi M., Moody B., Szolovits P., Celi L.A., and Mark R.G.
@@ -877,6 +889,11 @@ Johnson A.E.W., Pollard T.J., Shen L., Lehman L.H., Feng M., Ghassemi M., Moody 
 \bibitem{MIMIC2011}
 Saeed M., Villarroel M., Reisner A.T., Clifford G., Lehman L.W., Moody G., Heldt T., Kyaw T.H., Moody B., and Mark R.G.
 \newblock Multiparameter Intelligent Monitoring in Intensive Care {II} ({MIMIC-II}): a public-access intensive care unit database. \newblock {\em Critical care medicine}, 39(5):952-960 (2011).
+
+\bibitem{eicu-data-paper}
+Johnson A. E. W. and Pollard T. J.
+\newblock MIT-LCP/eicu-data-paper: eICU-CRD Code for Data Descriptor.
+\newblock \emph{Zenodo}, https://doi.org/10.5281/zenodo.1248994 (\bibinfo{year}{2018}).
 
 \bibitem{kelly2014intensive}
 Kelly F.E., Fong K., Hirsch N., and Nolan J.P.
@@ -913,11 +930,6 @@ P\'erez F. and Granger B.
   \textbf{\bibinfo{volume}{101}}, \bibinfo{pages}{e215----e220}
   (\bibinfo{year}{2000}).
 
-\bibitem{HIPAA}
-United States.
-\newblock The Health Insurance Portability and Accountability Act (HIPAA) (1996).
-\newblock Available from: https://www.gpo.gov/fdsys/pkg/PLAW-104publ191/html/PLAW-104publ191.htm (\bibinfo{year}{Accessed: 15 May 2018}).
-
 \bibitem{Wilson2014}
 Wilson G., Aruliah D.A., Brown C.T., Chue Hong N.P., Davis M., Guy R.T., Haddock S.H., Huff K., Mitchell I.M., Plumbley M.D., Waugh B., White E.P., and Wilson P.
 \newblock {Best practices for scientific computing.}
@@ -928,11 +940,6 @@ Zimmerman J.E., Kramer A.A., McNair D.S., and Malila F.M.
 \newblock Acute physiology and chronic health evaluation ({APACHE}) {IV}: hospital
   mortality assessment for today’s critically ill patients.
 \newblock {\em Critical Care Medicine}, 34(5):1297--1310 (2006).
-
-\bibitem{mcshea2010eicu}
-McShea M., Holl R., Badawi O., Riker R.R., and Silfen E.
-\newblock The {eICU} research institute-a collaboration between industry, health-care providers, and academia.
-\newblock {\em IEEE Engineering in Medicine and Biology Magazine}, 29(2):18--25 (2010).
 
 \bibitem{neamatullah2008automated}
 Neamatullah I., Douglass M. M., Lehman L. H., Reisner A., Villarroel M., Long W. J., Szolovits P., Moody G. B., Mark R. G. and Clifford G. D.
@@ -949,17 +956,10 @@ Johnson A. E. W., Pollard T. J., and Mark R. G.
 \newblock Reproducibility in critical care: a mortality prediction case study.
 \newblock {\em Proceedings of Machine Learning Research}, 68:361--376 (2017).
 
-\bibitem{eicu-data-paper}
-Johnson A. E. W. and Pollard T. J.
-\newblock MIT-LCP/eicu-data-paper: eICU-CRD Code for Data Descriptor (Version v1.0).
-\newblock \emph{Zenodo}, https://doi.org/10.5281/zenodo.1248994 (\bibinfo{year}{Accessed: 15 May 2018}).
-
 \end{thebibliography}
 
 \section*{Data Citations}
 
-Bibliographic information for the data records described in the manuscript.
-
-1. Johnson, A.E.W., Pollard, T.J., Raffa, J., Celi L.A., Badawi, O. \& Mark, R. \emph{eICU Collaborative Research Database}. https://dx.doi.org/10.13026/C2WM1R (2018).
+1. Johnson, A.E.W., Pollard, T.J., Raffa, J., Celi L.A., Badawi, O. \& Mark, R. \emph{The eICU Collaborative Research Database}. https://dx.doi.org/10.13026/C2WM1R (2018).
 
 \end{document}
